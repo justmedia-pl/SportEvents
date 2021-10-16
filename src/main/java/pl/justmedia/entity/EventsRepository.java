@@ -1,4 +1,4 @@
-package entity;
+package pl.justmedia.entity;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface EventsRepository extends JpaRepository <Event, UUID> {
 
-    List<Event> findByEventName (String eventName);
-    List<Event> findByOrganizator (Organizator organizator);
+    List<Event> findByEventTtile (String eventTtile);
+    List<Event> findByEventOrganizer (Organizer eventOrganizer);
     List<Event> findByEventDate (LocalDateTime eventDate);
 }
