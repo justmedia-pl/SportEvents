@@ -17,7 +17,12 @@ public class Subscription {
     private LocalDateTime subscriptionDate;
     private Boolean subscriptionApporoved;
 
-
-
-
+    public Subscription(Boolean subscriptionPaymentDone,
+                        LocalDateTime subscriptionDate,
+                        Boolean subscriptionApporoved) {
+        this.subscriptionId =  UUID.randomUUID();
+        this.subscriptionPaymentDone = subscriptionPaymentDone;
+        this.subscriptionDate = subscriptionDate;
+        this.subscriptionApporoved = subscriptionApporoved;
+    }
 }

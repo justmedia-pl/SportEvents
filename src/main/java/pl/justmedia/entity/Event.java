@@ -1,5 +1,6 @@
 package pl.justmedia.entity;
 
+import com.sun.istack.NotNull;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -22,25 +23,21 @@ public class Event {
     private LocalDateTime eventDate;
     private Integer eventPlayerLimit;
     private double eventFee;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "event_id")
-    private User eventOrganizer;
+
 
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "event_id")
     private List<Subscription> eventSubscriptions;
 
-    public Event(String eventTtile,
-                 LocalDateTime eventDate,
-                 Integer eventPlayerLimit,
-                 double eventFee,
-                 Organizer eventOrganizer) {
+    public Event(@NotNull String eventTtile,
+                 @NotNull LocalDateTime eventDate,
+                 @NotNull Integer eventPlayerLimit,
+                 @NotNull double eventFee) {
         this.eventId = UUID.randomUUID();
         this.eventTtile = eventTtile;
         this.eventDate = eventDate;
         this.eventPlayerLimit = eventPlayerLimit;
         this.eventFee = eventFee;
-        this.eventOrganizer = eventOrganizer;
     }
 }

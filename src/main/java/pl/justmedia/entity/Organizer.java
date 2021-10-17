@@ -5,16 +5,19 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@DiscriminatorValue("ORAGANIZATOR")
+@DiscriminatorValue("ORGANIZER")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Organizer extends User {
     private String organizerName;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "organizer_id")
+    private List<Event> organizerEvents;
 
     public Organizer(String userPassword,
                      String userLogin,
