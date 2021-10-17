@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "events")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @EqualsAndHashCode
 public class Event {
@@ -21,7 +21,7 @@ public class Event {
     private UUID eventId;
     private String eventTtile;
     private LocalDateTime eventDate;
-    private Integer eventPlayerLimit;
+    private int eventPlayerLimit;
     private double eventFee;
 
 

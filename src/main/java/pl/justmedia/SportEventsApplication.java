@@ -9,7 +9,11 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @SpringBootApplication
 public class SportEventsApplication {
@@ -23,8 +27,8 @@ public class SportEventsApplication {
         @Profile("dev")
         static class InitOnStartup {
 
-           private final UserRepository personRepository;
-           private final EventsRepository eventsRepository;
+           private final UserRepository userRepository;
+           EntityManager em;
 
             @EventListener
             @Transactional

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -52,6 +53,7 @@ public class Player extends User {
         this.playerAdditionalInfo = playerAdditionalInfo;
         this.playerLicence = playerLicence;
         this.playerPhone = playerPhone;
+        this.playerSubscriptions = new ArrayList<>();
     }
 
     @Override
@@ -74,5 +76,18 @@ public class Player extends User {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), playerFirstName, playerLastName, playerDOB, playerPhone);
+    }
+
+    public void addSubscription(Subscription subscription){
+        if(subscription != null && !playerSubscriptions.contains(subscription)){
+            playerSubscriptions.add(subscription);
+        }
+    }
+    public List<Subscription> getApprovedSubscriptions(){
+        List<Subscription> apporved = new ArrayList<>();
+        for (Subscription subscription : playerSubscriptions){
+            apporved.add(subscription);
+        }
+        return apporved;
     }
 }

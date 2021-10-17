@@ -13,9 +13,9 @@ import java.util.UUID;
 public class Subscription {
     @Id
     private UUID subscriptionId;
-    private Boolean subscriptionPaymentDone;
+    private boolean subscriptionPaymentDone;
     private LocalDateTime subscriptionDate;
-    private Boolean subscriptionApporoved;
+    private boolean subscriptionApporoved;
 
     public Subscription(Boolean subscriptionPaymentDone,
                         LocalDateTime subscriptionDate,

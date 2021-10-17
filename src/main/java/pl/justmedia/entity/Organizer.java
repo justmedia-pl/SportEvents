@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,6 +30,7 @@ public class Organizer extends User {
                      @NotNull String organizerName) {
         super(userPassword, userLogin, userEmail, userCity, userStreet, userCountry, userZipCode);
         this.organizerName = organizerName;
+        this.organizerEvents = new ArrayList<>();
     }
 
     @Override
