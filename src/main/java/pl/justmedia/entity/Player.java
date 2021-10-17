@@ -1,12 +1,15 @@
 package pl.justmedia.entity;
 
-import com.sun.istack.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import pl.justmedia.service.dto.RegisterOrganizerForm;
+import pl.justmedia.service.dto.RegisterPlayerForm;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -36,14 +39,14 @@ public class Player extends User {
                   String userStreet,
                   String userCountry,
                   String userZipCode,
-                  @NotNull String playerFirstName,
-                  @NotNull String playerLastName,
-                  @NotNull LocalDate playerDOB,
+                  @NonNull String playerFirstName,
+                  @NonNull String playerLastName,
+                  @NonNull LocalDate playerDOB,
                   String playerTeamName,
                   double playerWeight,
                   String playerAdditionalInfo,
                   String playerLicence,
-                  @NotNull String playerPhone) {
+                  @NonNull String playerPhone) {
         super(userPassword, userLogin, userEmail, userCity, userStreet, userCountry, userZipCode);
         this.playerFirstName = playerFirstName;
         this.playerLastName = playerLastName;
@@ -56,6 +59,26 @@ public class Player extends User {
         this.playerSubscriptions = new ArrayList<>();
     }
 
+
+  public static Player createWith(RegisterPlayerForm form) {
+   DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    return new  Player(form.getUserPassword(),
+            form.getUserLogin(),
+            form.getUserEmail(),
+            form.getUserCity(),
+            form.getUserStreet(),
+            form.getUserCountry(),
+            form.getUserZipCode(),
+            form.getPlayerFirstName(),
+            form.getPlayerLastName(),
+            LocalDate.parse(form.getPlayerDOB(),formatter),
+            form.getPlayerTeamName(),
+            Double.valueOf(form.getPlayerWeight()),
+            form.getPlayerAdditionalInfo(),
+            form.getPlayerLicence(),
+            form.getPlayerPhone());
+    }
     @Override
     public String getName() {
         return playerFirstName + " " + playerLastName;

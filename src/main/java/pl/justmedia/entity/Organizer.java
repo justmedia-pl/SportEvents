@@ -1,9 +1,10 @@
 package pl.justmedia.entity;
 
-import com.sun.istack.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import pl.justmedia.service.dto.RegisterOrganizerForm;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -27,10 +28,21 @@ public class Organizer extends User {
                      String userStreet,
                      String userCountry,
                      String userZipCode,
-                     @NotNull String organizerName) {
+                     @NonNull String organizerName) {
         super(userPassword, userLogin, userEmail, userCity, userStreet, userCountry, userZipCode);
         this.organizerName = organizerName;
         this.organizerEvents = new ArrayList<>();
+    }
+
+    public static Organizer createWith(RegisterOrganizerForm form) {
+        return new Organizer (form.getUserPassword(),
+                form.getUserLogin(),
+                form.getUserEmail(),
+                form.getUserCity(),
+                form.getUserStreet(),
+                form.getUserCountry(),
+                form.getUserZipCode(),
+                form.getOrganizerName());
     }
 
     @Override

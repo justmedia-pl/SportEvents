@@ -13,5 +13,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     List<User> findByUserLogin(String userLogin);
     List<Player> findByPlayerTeamName(String playerTeamName);
     List<Organizer> findByOrganizerName(String organizerName);
-
+    @Query("select (count(c) > 0) from Customer c where upper(c.email) = upper(?1)")
+    boolean emailExists(String email);
 }
