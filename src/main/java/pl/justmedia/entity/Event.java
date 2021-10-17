@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -22,8 +23,13 @@ public class Event {
     private Integer eventPlayerLimit;
     private double eventFee;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "organizer_id")
+    @JoinColumn(name = "event_id")
     private User eventOrganizer;
+
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "event_id")
+    private List<Subscription> eventSubscriptions;
 
     public Event(String eventTtile,
                  LocalDateTime eventDate,

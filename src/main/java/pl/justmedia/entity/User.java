@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -45,4 +46,22 @@ public abstract class User {
         this.userZipCode = userZipCode;
     }
 
+    public abstract String getName();
+
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return userId.equals(user.userId) && userEmail.equals(user.userEmail);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, userEmail);
+    }
 }
+
+

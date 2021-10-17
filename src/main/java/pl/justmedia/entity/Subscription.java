@@ -17,12 +17,7 @@ public class Subscription {
     private LocalDateTime subscriptionDate;
     private Boolean subscriptionApporoved;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "player_id")
-    private Player subscriptionPlayer;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "subscription_id")
-    private Event subscriptionEvent;
+
 
 }
