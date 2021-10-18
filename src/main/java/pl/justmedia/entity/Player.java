@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import pl.justmedia.service.dto.RegisterOrganizerForm;
 import pl.justmedia.service.dto.RegisterPlayerForm;
+import pl.justmedia.service.exception.SubscriptionException;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -102,10 +103,24 @@ public class Player extends User {
     }
 
     public void addSubscription(Subscription subscription){
-        if(subscription != null && !playerSubscriptions.contains(subscription)){
-            playerSubscriptions.add(subscription);
+        if(subscription != null) {
+                if( !playerSubscriptions.contains(subscription)){
+                    playerSubscriptions.add(subscription);
+                } else {
+                    throw new SubscriptionException("Subscription for this event already exist for this Player");
+                }
+            }
+    }
+    public void removeSubscription(Subscription subscription){
+        if(subscription != null) {
+            if( playerSubscriptions.contains(subscription)){
+                playerSubscriptions.remove(subscription);
+            } else {
+                throw new SubscriptionException("Subscription for this event not exist for this Player");
+            }
         }
     }
+
     public List<Subscription> getApprovedSubscriptions(){
         List<Subscription> apporved = new ArrayList<>();
         for (Subscription subscription : playerSubscriptions){

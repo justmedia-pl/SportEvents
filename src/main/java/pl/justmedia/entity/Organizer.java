@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import pl.justmedia.service.dto.RegisterOrganizerForm;
+import pl.justmedia.service.exception.EventException;
+import pl.justmedia.service.exception.SubscriptionException;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -44,6 +46,25 @@ public class Organizer extends User {
                 form.getUserZipCode(),
                 form.getOrganizerName());
     }
+    public void addEvent(Event event){
+        if(event != null) {
+            if( !organizerEvents.contains(event)){
+                organizerEvents.add(event);
+            } else {
+                throw new EventException("Event already exist for this Organizer");
+            }
+        }
+    }
+    public void removeEvent(Event event){
+        if(event != null) {
+            if( organizerEvents.contains(event)){
+                organizerEvents.remove(event);
+            } else {
+                throw new EventException("Event for this organizer not exist");
+            }
+        }
+    }
+
 
     @Override
     public String getName() {

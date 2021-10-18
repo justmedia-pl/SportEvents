@@ -15,14 +15,19 @@ public class Subscription {
     private UUID subscriptionId;
     private boolean subscriptionPaymentDone;
     private LocalDateTime subscriptionDate;
-    private boolean subscriptionApporoved;
+    private boolean subscriptionApproved;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "event_id")
+    private Event event;
 
     public Subscription(Boolean subscriptionPaymentDone,
                         LocalDateTime subscriptionDate,
-                        Boolean subscriptionApporoved) {
+                        Boolean subscriptionApproved,
+                        Event event) {
         this.subscriptionId =  UUID.randomUUID();
         this.subscriptionPaymentDone = subscriptionPaymentDone;
         this.subscriptionDate = subscriptionDate;
-        this.subscriptionApporoved = subscriptionApporoved;
+        this.subscriptionApproved = subscriptionApproved;
+        this.event = event;
     }
 }

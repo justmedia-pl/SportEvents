@@ -19,25 +19,25 @@ import java.util.UUID;
 public class Event {
     @Id
     private UUID eventId;
-    private String eventTtile;
+    private String eventTitle;
     private LocalDateTime eventDate;
     private int eventPlayerLimit;
     private double eventFee;
-
-
-
+    /*
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "event_id")
     private List<Subscription> eventSubscriptions;
+    */
 
-    public Event(@NotNull String eventTtile,
+    public Event(@NotNull String eventTitle,
                  @NotNull LocalDateTime eventDate,
                  @NotNull Integer eventPlayerLimit,
                  @NotNull double eventFee) {
         this.eventId = UUID.randomUUID();
-        this.eventTtile = eventTtile;
+        this.eventTitle = eventTitle;
         this.eventDate = eventDate;
         this.eventPlayerLimit = eventPlayerLimit;
         this.eventFee = eventFee;
     }
+
 }
