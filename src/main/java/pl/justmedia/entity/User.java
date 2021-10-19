@@ -1,9 +1,6 @@
 package pl.justmedia.entity;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -28,6 +25,7 @@ public abstract class User {
     private String userStreet;
     private String userCountry;
     private String userZipCode;
+    private boolean userActive;
 
     public User(@NonNull String userPassword,
                 @NonNull String userLogin,
@@ -44,6 +42,7 @@ public abstract class User {
         this.userStreet = userStreet;
         this.userCountry = userCountry;
         this.userZipCode = userZipCode;
+        this.userActive = true;
     }
 
     public abstract String getName();
@@ -61,6 +60,10 @@ public abstract class User {
     @Override
     public int hashCode() {
         return Objects.hash(userId, userEmail);
+    }
+
+    public void setUserActive(boolean active){
+        this.userActive =  active;
     }
 }
 

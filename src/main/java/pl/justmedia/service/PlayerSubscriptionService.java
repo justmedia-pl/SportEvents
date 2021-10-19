@@ -3,15 +3,18 @@ package pl.justmedia.service;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.justmedia.entity.Event;
 import pl.justmedia.entity.Player;
 import pl.justmedia.entity.Subscription;
 import pl.justmedia.entity.UserRepository;
 import pl.justmedia.service.dto.AddSubscriptionForm;
 import pl.justmedia.service.dto.RegisteredSubscription;
+import pl.justmedia.service.dto.RemoveSubscriptionForm;
 import pl.justmedia.service.exception.SubscriptionException;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -25,7 +28,7 @@ public class PlayerSubscriptionService {
             throw new SubscriptionException("");
         }
         if (!(userRepository.getById(form.getUserId()) instanceof Player)) {
-            throw new SubscriptionException("");
+            throw new SubscriptionException("Given user is not a Player");
             }
 
         Player player = (Player) userRepository.getById(form.getUserId());
@@ -38,4 +41,11 @@ public class PlayerSubscriptionService {
         userRepository.save(player);
         return new RegisteredSubscription(player.getUserId(),subscription.getSubscriptionId());
     }
+
+    public void removeSubscription(@NonNull RemoveSubscriptionForm form){
+        Player player = (Player) userRepository.getById(form.getUserId());
+        player.removeSubscription(form.getEvent());
+        userRepository.save(player);
+    }
+
 }

@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Value
 public class AddEventForm {
-    UUID eventId;
+    UUID userId;
     String eventTitle;
     LocalDateTime eventDate;
     int eventPlayerLimit;

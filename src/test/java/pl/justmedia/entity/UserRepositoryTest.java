@@ -101,10 +101,10 @@ class UserRepositoryTest {
         repository.saveAllAndFlush(List.of(user1,user2,user3));
 
         // when
-        List<User> userList = repository.findByUserEmail("player2@player.com");
+        User user = repository.findByUserEmail("player2@player.com");
 
         // then
-        assertTrue(List.of(user2).containsAll(userList));
+        assertTrue(List.of(user2).contains(user));
     }
 
     @Test

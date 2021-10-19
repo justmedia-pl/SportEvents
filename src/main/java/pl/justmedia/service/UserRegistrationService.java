@@ -3,6 +3,7 @@ package pl.justmedia.service;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.justmedia.entity.Organizer;
 import pl.justmedia.entity.Player;
 import pl.justmedia.entity.UserRepository;
@@ -11,7 +12,7 @@ import pl.justmedia.service.dto.RegisterPlayerForm;
 import pl.justmedia.service.dto.RegisteredUserId;
 import pl.justmedia.service.exception.EmailAlreadyExistException;
 
-import javax.transaction.Transactional;
+
 
 @Service
 @Transactional

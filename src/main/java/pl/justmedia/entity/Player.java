@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Entity
 @DiscriminatorValue("PLAYER")
@@ -28,6 +29,7 @@ public class Player extends User {
     private String playerAdditionalInfo;
     private String playerLicence;
     private String playerPhone;
+
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "player_id")
@@ -58,6 +60,7 @@ public class Player extends User {
         this.playerLicence = playerLicence;
         this.playerPhone = playerPhone;
         this.playerSubscriptions = new ArrayList<>();
+
     }
 
 
@@ -111,8 +114,12 @@ public class Player extends User {
                 }
             }
     }
-    public void removeSubscription(Subscription subscription){
-        if(subscription != null) {
+    public void removeSubscription(Event event){
+
+        if(event != null) {
+            Subscription subscription = playerSubscriptions.stream()
+                    .filter(subEvent-> event.equals(subEvent.getEvent()))
+                    .findFirst().orElse(null);
             if( playerSubscriptions.contains(subscription)){
                 playerSubscriptions.remove(subscription);
             } else {
@@ -122,10 +129,9 @@ public class Player extends User {
     }
 
     public List<Subscription> getApprovedSubscriptions(){
-        List<Subscription> apporved = new ArrayList<>();
-        for (Subscription subscription : playerSubscriptions){
-            apporved.add(subscription);
-        }
-        return apporved;
+        return playerSubscriptions.stream()
+                .filter(subEvent-> subEvent.isSubscriptionApproved())
+                .collect(Collectors.toList());
     }
+
 }
