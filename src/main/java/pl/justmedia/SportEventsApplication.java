@@ -36,7 +36,7 @@ public class SportEventsApplication {
         InitializingBean sendDatabase() {
             return () -> {
                 // INITIALIZE
-                /*
+
                 final var user1 = new RegisterPlayerForm("123",
                         "player1",
                         "player@player.com",
@@ -54,7 +54,7 @@ public class SportEventsApplication {
                         "123123123");
                 final var registeredUserId = service.registerPlayer(user1);
 
-                final var user1 = new Player("123",
+                final var user2 = new Player("123",
                         "player1",
                         "player@player.com",
                         "PlayerCity",
@@ -69,12 +69,12 @@ public class SportEventsApplication {
                         "",
                         "",
                         "123123123");
-                Subscription subscription1 = new Subscription(true, LocalDateTime.of(2021,1,10,10,0),true);
-                Subscription subscription2 = new Subscription(true, LocalDateTime.of(2021,1,10,10,0),false);
-                user1.addSubscription(subscription1);
-                user1.addSubscription(subscription2);
-                userRepository.saveAllAndFlush(List.of(user1));
-                */
+                //Subscription subscription1 = new Subscription(true, LocalDateTime.of(2021,1,10,10,0),true);
+               // Subscription subscription2 = new Subscription(true, LocalDateTime.of(2021,1,10,10,0),false);
+               // user1.addSubscription(subscription1);
+               // user1.addSubscription(subscription2);
+                userRepository.saveAllAndFlush(List.of(user2));
+
             };
         }
 }

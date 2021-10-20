@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import pl.justmedia.service.dto.PlayerDetails;
+import pl.justmedia.service.dto.PlayerView;
 import pl.justmedia.service.dto.RegisterOrganizerForm;
 import pl.justmedia.service.dto.RegisterPlayerForm;
 import pl.justmedia.service.exception.SubscriptionException;
@@ -13,6 +15,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -134,4 +137,29 @@ public class Player extends User {
                 .collect(Collectors.toList());
     }
 
+    public PlayerView toView(){
+        return new PlayerView(getUserId(),
+                getName(),
+                getUserEmail(),
+                getUserType());
+    }
+    public PlayerDetails viewDetail(){
+        return new PlayerDetails(getUserId(),
+                getName(),
+                getUserEmail(),
+                getUserType(),
+                getPlayerSubscriptions(),
+                getUserCity(),
+                getUserStreet(),
+                getUserCountry(),
+                getUserZipCode(),
+                getPlayerFirstName(),
+                getPlayerLastName(),
+                getPlayerDOB().toString(),
+                getPlayerTeamName(),
+                String.valueOf(getPlayerWeight()),
+                getPlayerAdditionalInfo(),
+                getPlayerLicence(),
+                getPlayerPhone());
+    }
 }

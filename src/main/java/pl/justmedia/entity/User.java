@@ -1,6 +1,7 @@
 package pl.justmedia.entity;
 
 import lombok.*;
+import pl.justmedia.service.dto.PlayerView;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -65,6 +66,8 @@ public abstract class User {
     public void setUserActive(boolean active){
         this.userActive =  active;
     }
+
+
 }
 
 
