@@ -16,6 +16,8 @@ import java.time.LocalDateTime;
 public class OrganizerEventService {
     @NonNull
     private UserRepository userRepository;
+    @NonNull
+    private EventsRepository eventsRepository;
 
     public RegisteredEvent addEvent(@NonNull AddEventForm form){
         if(userRepository.getById(form.getUserId()) == null){

@@ -14,10 +14,7 @@ import org.springframework.stereotype.Component;
 import pl.justmedia.service.OrganizerEventService;
 import pl.justmedia.service.PlayerSubscriptionService;
 import pl.justmedia.service.UserRegistrationService;
-import pl.justmedia.service.dto.AddEventForm;
-import pl.justmedia.service.dto.AddSubscriptionForm;
-import pl.justmedia.service.dto.RegisterOrganizerForm;
-import pl.justmedia.service.dto.RegisterPlayerForm;
+import pl.justmedia.service.dto.*;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -73,7 +70,7 @@ public class SportEventsApplication {
                         "Poland",
                         "00000",
                         "PlayerName"
-                        );
+                );
                 final var registeredOrganizerId = service.registerOrganizer(user2);
                 final var registeredEventId = organizerEventService.addEvent(new AddEventForm(
                         registeredOrganizerId.getUserId(),
@@ -84,24 +81,17 @@ public class SportEventsApplication {
                 ));
                 final var registeredSubscriptionId = playerSubscriptionService.addSubscripton(
                         new AddSubscriptionForm(
-                        registeredUserId.getUserId(),
+                                registeredUserId.getUserId(),
                                 true,
                                 LocalDateTime.now(),
                                 true,
                                 eventsRepository.getById(registeredEventId.getEventId())
-                ));
-                //Player player = (Player) userRepository.getById(registeredUserId.getUserId());
-               // Organizer organizer = (Organizer) userRepository.getById(registeredOrganizerId.getUserId());
-               // Event event = new Event("test",LocalDateTime.now(),10,0);
-               // organizer.addEvent(event);
-               // userRepository.save(organizer);
-              //  Subscription subscription1 = new Subscription(true, LocalDateTime.of(2021,1,10,10,0),
-               //         true,event);
-              // player.addSubscription(subscription1);
-              //  userRepository.save(player);
+                        ));
 
-
-
+              /*playerSubscriptionService.removeSubscription(new RemoveSubscriptionForm(
+                      registeredUserId.getUserId(),
+                      eventsRepository.getById(registeredEventId.getEventId())
+                ));*/
             };
         }
 }

@@ -3,6 +3,7 @@ package pl.justmedia.entity;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import lombok.*;
+import pl.justmedia.service.dto.SubscriptionEventView;
 import pl.justmedia.service.dto.SubscriptionView;
 
 import javax.persistence.*;
@@ -20,20 +21,23 @@ public class Subscription {
     private boolean subscriptionPaymentDone;
     private LocalDateTime subscriptionDate;
     private boolean subscriptionApproved;
-   @OneToOne()
-   @JoinColumn(name = "event_id")
-
+    @ManyToOne()
+    @JoinColumn(name = "player_id",nullable=false)
+    Player player;
+    @ManyToOne()
+    @JoinColumn(name = "events_id",nullable=false)
     private Event event;
 
     public Subscription(Boolean subscriptionPaymentDone,
                         LocalDateTime subscriptionDate,
                         Boolean subscriptionApproved,
-                        Event event) {
+                        Event event, Player player) {
         this.subscriptionId =  UUID.randomUUID();
         this.subscriptionPaymentDone = subscriptionPaymentDone;
         this.subscriptionDate = subscriptionDate;
         this.subscriptionApproved = subscriptionApproved;
         this.event = event;
+        this.player = player;
     }
 
     public SubscriptionView toView(){
@@ -45,5 +49,15 @@ public class Subscription {
                 event.getEventTitle(),
                 event.getEventDate().toString(),
                 event.getEventId().toString());
+    }
+    public SubscriptionEventView toEventView(){
+        return new SubscriptionEventView( subscriptionId.toString(),
+                Boolean.toString(subscriptionPaymentDone),
+                subscriptionDate.toString(),
+                Boolean.toString(subscriptionApproved),
+                event.getEventTitle(),
+                event.getEventDate().toString(),
+                getPlayer().getUserId().toString(),
+                getPlayer().getUserEmail());
     }
 }

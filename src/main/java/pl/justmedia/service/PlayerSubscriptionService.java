@@ -19,6 +19,10 @@ import java.util.UUID;
 public class PlayerSubscriptionService {
     @NonNull
     private UserRepository userRepository;
+    @NonNull
+    EventsRepository eventsRepository;
+    @NonNull
+    SubscriptionRepository subscriptionRepository;
 
     public RegisteredSubscription addSubscripton(@NonNull AddSubscriptionForm form){
         if(userRepository.getById(form.getUserId()) == null){
@@ -33,15 +37,18 @@ public class PlayerSubscriptionService {
                 form.isSubscriptionPaymentDone(),
                 LocalDateTime.now(),
                 form.isSubscriptionApproved(),
-                form.getEvent());
+                form.getEvent(),player);
         player.addSubscription(subscription);
         userRepository.save(player);
         return new RegisteredSubscription(player.getUserId(),subscription.getSubscriptionId());
     }
 
     public void removeSubscription(@NonNull RemoveSubscriptionForm form){
-        Player player = (Player) userRepository.getById(form.getUserId());
-        player.removeSubscription(form.getEvent());
+        Player player = userRepository.getPlayerByUserId(form.getUserId());
+        Event event = eventsRepository.getById(form.getEvent().getEventId());
+        Subscription subscription= subscriptionRepository.findByEvent_EventIdAndPlayer_UserId(event.getEventId(),player.getUserId());
+        player.removeSubscription(event);
+        event.removeSubscription(subscription);
         userRepository.save(player);
     }
 

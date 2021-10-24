@@ -1,19 +1,15 @@
 package pl.justmedia.service.dto;
 
-import lombok.Getter;
 import lombok.Value;
-import pl.justmedia.entity.Subscription;
 import pl.justmedia.entity.UserType;
 
-import java.util.List;
 import java.util.UUID;
-
 @Value
-public class PlayerView {
+public class OrganizerView {
     UUID userId;
     String name;
     String email;
     UserType type;
-    int subscriptionsCount;
+    int eventsCount;
     boolean active;
 }

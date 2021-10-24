@@ -13,5 +13,5 @@ public interface EventsRepository extends JpaRepository <Event, UUID> {
     List<Event> findByEventDate (LocalDateTime eventDate);
     @Query("from Subscription s where s.event = (?1)")
     List<Subscription> findEventSubscriptions(Event event);
-    //list aproved
+
 }

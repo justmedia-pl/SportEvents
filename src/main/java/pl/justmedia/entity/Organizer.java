@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import pl.justmedia.service.dto.RegisterOrganizerForm;
+import pl.justmedia.service.dto.*;
 import pl.justmedia.service.exception.EventException;
 import pl.justmedia.service.exception.SubscriptionException;
 
@@ -12,6 +12,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Entity
 @DiscriminatorValue("ORGANIZER")
@@ -83,5 +84,25 @@ public class Organizer extends User {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), organizerName);
+    }
+    public OrganizerView toOrganizerView(){
+        return new OrganizerView(getUserId(),
+                getName(),
+                getUserEmail(),
+                getUserType(),
+                getOrganizerEvents().size(),
+                isUserActive());
+    }
+    public OrganizerDetails viewDetail(){
+        return new OrganizerDetails(getUserId(),
+               getOrganizerName(),
+                getUserEmail(),
+                getUserType(),
+                getUserCity(),
+                getUserStreet(),
+                getUserCountry(),
+                getUserZipCode(),
+                getOrganizerEvents().stream().map(Event::toView).collect(Collectors.toList())
+               );
     }
 }

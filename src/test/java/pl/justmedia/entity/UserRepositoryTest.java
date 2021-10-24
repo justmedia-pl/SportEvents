@@ -124,8 +124,8 @@ class UserRepositoryTest {
                 "",
                 "",
                 "123123123");
-        Subscription subscription1 = new Subscription(true, LocalDateTime.of(2021,1,10,10,0),true,new Event("Event",LocalDateTime.now(),10,0));
-        Subscription subscription2 = new Subscription(true, LocalDateTime.of(2021,1,10,10,0),false,new Event("Event",LocalDateTime.now(),10,0));
+        Subscription subscription1 = new Subscription(true, LocalDateTime.of(2021,1,10,10,0),true,new Event("Event",LocalDateTime.now(),10,0),new Player());
+        Subscription subscription2 = new Subscription(true, LocalDateTime.of(2021,1,10,10,0),false,new Event("Event",LocalDateTime.now(),10,0),new Player());
         user1.addSubscription(subscription1);
         user1.addSubscription(subscription2);
         repository.saveAllAndFlush(List.of(user1));

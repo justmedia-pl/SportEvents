@@ -17,11 +17,11 @@ public class PlayerDetails {
     String name;
     String email;
     UserType type;
-    List<SubscriptionView> playerSubscriptions;
     String userCity;
     String userStreet;
     String userCountry;
     String userZipCode;
+    List<SubscriptionView> playerSubscriptions;
     String playerFirstName;
     String playerLastName;
     String playerDOB;

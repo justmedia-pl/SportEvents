@@ -35,8 +35,7 @@ public class Player extends User {
     private String playerPhone;
 
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "player_id")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy="player",orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Subscription> playerSubscriptions;
 
     public Player(String userPassword,
@@ -138,22 +137,24 @@ public class Player extends User {
                 .collect(Collectors.toList());
     }
 
-    public PlayerView toView(){
+    public PlayerView toPlayerView(){
         return new PlayerView(getUserId(),
                 getName(),
                 getUserEmail(),
-                getUserType());
+                getUserType(),
+                getPlayerSubscriptions().size(),
+                isUserActive());
     }
     public PlayerDetails viewDetail(){
         return new PlayerDetails(getUserId(),
                 getName(),
                 getUserEmail(),
                 getUserType(),
-                getPlayerSubscriptions().stream().map(Subscription::toView).collect(Collectors.toList()),
                 getUserCity(),
                 getUserStreet(),
                 getUserCountry(),
                 getUserZipCode(),
+                getPlayerSubscriptions().stream().map(Subscription::toView).collect(Collectors.toList()),
                 getPlayerFirstName(),
                 getPlayerLastName(),
                 getPlayerDOB().toString(),
