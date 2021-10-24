@@ -1,6 +1,9 @@
 package pl.justmedia.entity;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import lombok.*;
+import pl.justmedia.service.dto.SubscriptionView;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -10,14 +13,16 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PRIVATE) // for hibernate
 @Getter
 @EqualsAndHashCode
+
 public class Subscription {
     @Id
     private UUID subscriptionId;
     private boolean subscriptionPaymentDone;
     private LocalDateTime subscriptionDate;
     private boolean subscriptionApproved;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "event_id")
+   @OneToOne()
+   @JoinColumn(name = "event_id")
+
     private Event event;
 
     public Subscription(Boolean subscriptionPaymentDone,
@@ -29,5 +34,16 @@ public class Subscription {
         this.subscriptionDate = subscriptionDate;
         this.subscriptionApproved = subscriptionApproved;
         this.event = event;
+    }
+
+    public SubscriptionView toView(){
+        return new SubscriptionView(
+                subscriptionId.toString(),
+                Boolean.toString(subscriptionPaymentDone),
+                subscriptionDate.toString(),
+                Boolean.toString(subscriptionApproved),
+                event.getEventTitle(),
+                event.getEventDate().toString(),
+                event.getEventId().toString());
     }
 }

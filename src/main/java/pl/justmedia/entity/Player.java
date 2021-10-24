@@ -1,5 +1,6 @@
 package pl.justmedia.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -148,7 +149,7 @@ public class Player extends User {
                 getName(),
                 getUserEmail(),
                 getUserType(),
-                getPlayerSubscriptions(),
+                getPlayerSubscriptions().stream().map(Subscription::toView).collect(Collectors.toList()),
                 getUserCity(),
                 getUserStreet(),
                 getUserCountry(),

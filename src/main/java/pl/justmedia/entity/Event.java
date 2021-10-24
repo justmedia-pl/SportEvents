@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "events")
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @EqualsAndHashCode
 public class Event {

@@ -2,6 +2,7 @@ package pl.justmedia.controller;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/players/view")
+@RequestMapping(value="/api/players/view",produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class UserViewRestContoller {
     @NonNull
@@ -26,7 +27,7 @@ public class UserViewRestContoller {
     List<PlayerView> getPlayers() {
         return query.listPlayers();
     }
-    @GetMapping("/{userId}")
+    @GetMapping(value="/{userId}",produces = MediaType.APPLICATION_JSON_VALUE)
     PlayerDetails getPlayer(@PathVariable UUID userId){
         return query.getPlayerDetails(userId);
     }

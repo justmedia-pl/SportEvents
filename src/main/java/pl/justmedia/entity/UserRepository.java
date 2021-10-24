@@ -10,6 +10,8 @@ import java.util.UUID;
 public interface UserRepository extends JpaRepository<User, UUID> {
 
     User findByUserEmail(String userEmail);
+    Player getPlayerByUserId(UUID userId);
+    Organizer getOrganizerByUserId(UUID userId);
     List<User> findByUserActive(boolean active);
     List<User> findByUserLogin(String userLogin);
     List<Player> findByPlayerTeamName(String playerTeamName);

@@ -21,11 +21,12 @@ public class OrganizerEventService {
         if(userRepository.getById(form.getUserId()) == null){
             throw new SubscriptionException("");
         }
-        if (!(userRepository.getById(form.getUserId()) instanceof Organizer)) {
+
+        if (!(userRepository.getById(form.getUserId()).getUserType().equals(UserType.ORGANIZER))) {
             throw new SubscriptionException("Given user is not a Organizer");
         }
 
-        Organizer organizer = (Organizer) userRepository.getById(form.getUserId());
+        Organizer organizer = userRepository.getOrganizerByUserId(form.getUserId());
         Event event = new Event(
                 form.getEventTitle(),
                 LocalDateTime.now(),
@@ -36,7 +37,7 @@ public class OrganizerEventService {
         return new RegisteredEvent(organizer.getUserId(),event.getEventId());
     }
     public void removeEvent(@NonNull RemoveEventForm form){
-        Organizer organizer = (Organizer) userRepository.getById(form.getUserId());
+        Organizer organizer = userRepository.getOrganizerByUserId(form.getUserId());
         organizer.removeEvent(form.getEvent());
         userRepository.save(organizer);
     }

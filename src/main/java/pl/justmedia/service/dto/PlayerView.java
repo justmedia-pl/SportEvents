@@ -1,5 +1,6 @@
 package pl.justmedia.service.dto;
 
+import lombok.Getter;
 import lombok.Value;
 import pl.justmedia.entity.Subscription;
 import pl.justmedia.entity.UserType;
