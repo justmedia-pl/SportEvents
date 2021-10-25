@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.justmedia.entity.Organizer;
 import pl.justmedia.entity.Player;
-import pl.justmedia.entity.UserRepository;
+import pl.justmedia.entity.repositories.UserRepository;
 import pl.justmedia.service.dto.RegisterOrganizerForm;
 import pl.justmedia.service.dto.RegisterPlayerForm;
 import pl.justmedia.service.exception.EmailAlreadyExistException;
@@ -18,9 +18,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-class UserRegistrationServiceTest {
+class UserServiceTest {
     @Autowired
-    private UserRegistrationService userRegistrationService;
+    private UserService userService;
     @Autowired
     private UserRepository userRepository;
 
@@ -42,7 +42,7 @@ class UserRegistrationServiceTest {
                 "",
                 "",
                 "123123123");
-        final var registeredUserId = userRegistrationService.registerPlayer(user1);
+        final var registeredUserId = userService.registerPlayer(user1);
         assertNotNull(registeredUserId);
         assertTrue(userRepository.existsById(registeredUserId.getUserId()));
     }
@@ -58,7 +58,7 @@ class UserRegistrationServiceTest {
                 "Poland",
                 "00000",
                 "OrganizerName");
-        final var registeredOrganizerId = userRegistrationService.registerOrganizer(organizer1);
+        final var registeredOrganizerId = userService.registerOrganizer(organizer1);
         assertNotNull(registeredOrganizerId);
         assertTrue(userRepository.existsById(registeredOrganizerId.getUserId()));
     }
@@ -96,7 +96,7 @@ class UserRegistrationServiceTest {
                 "",
                 "",
                 "123123123");
-       assertThrows(EmailAlreadyExistException.class,() -> userRegistrationService.registerPlayer(user1));
+       assertThrows(EmailAlreadyExistException.class,() -> userService.registerPlayer(user1));
     }
 
     @Test
@@ -120,7 +120,7 @@ class UserRegistrationServiceTest {
                 "Poland",
                 "00000",
                 "OrganizerName");
-        assertThrows(EmailAlreadyExistException.class,() -> userRegistrationService.registerOrganizer(organizer1));
+        assertThrows(EmailAlreadyExistException.class,() -> userService.registerOrganizer(organizer1));
     }
 
 }

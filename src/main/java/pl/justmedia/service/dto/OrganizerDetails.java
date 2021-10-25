@@ -2,7 +2,7 @@ package pl.justmedia.service.dto;
 
 import lombok.Getter;
 import lombok.Value;
-import pl.justmedia.entity.UserType;
+import pl.justmedia.entity.enums.UserType;
 
 import java.util.List;
 import java.util.UUID;

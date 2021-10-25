@@ -1,9 +1,10 @@
 package pl.justmedia.entity;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import pl.justmedia.entity.repositories.UserRepository;
+
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 

@@ -11,5 +11,6 @@ public class RegisteredEvent {
 
     @NonNull
     UUID userId;
+    @NonNull
     UUID eventId;
 }

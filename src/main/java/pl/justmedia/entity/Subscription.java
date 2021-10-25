@@ -13,6 +13,7 @@ import java.util.UUID;
 @Table(name = "subscriptions")
 @NoArgsConstructor(access = AccessLevel.PRIVATE) // for hibernate
 @Getter
+@Setter
 @EqualsAndHashCode
 
 public class Subscription {

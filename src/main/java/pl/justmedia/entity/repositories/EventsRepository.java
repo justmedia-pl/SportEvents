@@ -1,7 +1,9 @@
-package pl.justmedia.entity;
+package pl.justmedia.entity.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import pl.justmedia.entity.Event;
+import pl.justmedia.entity.Subscription;
 
 import java.time.LocalDateTime;
 import java.util.List;

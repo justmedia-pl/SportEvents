@@ -4,7 +4,11 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.justmedia.entity.*;
-import pl.justmedia.service.dto.AddSubscriptionForm;
+import pl.justmedia.entity.enums.UserType;
+import pl.justmedia.entity.repositories.EventsRepository;
+import pl.justmedia.entity.repositories.SubscriptionRepository;
+import pl.justmedia.entity.repositories.UserRepository;
+import pl.justmedia.service.dto.RegisterSubscriptionForm;
 import pl.justmedia.service.dto.RegisteredSubscription;
 import pl.justmedia.service.dto.RemoveSubscriptionForm;
 import pl.justmedia.service.exception.SubscriptionException;
@@ -24,7 +28,7 @@ public class PlayerSubscriptionService {
     @NonNull
     SubscriptionRepository subscriptionRepository;
 
-    public RegisteredSubscription addSubscripton(@NonNull AddSubscriptionForm form){
+    public RegisteredSubscription addSubscription(@NonNull RegisterSubscriptionForm form){
         if(userRepository.getById(form.getUserId()) == null){
             throw new SubscriptionException("");
         }
@@ -45,11 +49,40 @@ public class PlayerSubscriptionService {
 
     public void removeSubscription(@NonNull RemoveSubscriptionForm form){
         Player player = userRepository.getPlayerByUserId(form.getUserId());
+        if (!player.getUserType().equals(UserType.PLAYER)) {
+            throw new SubscriptionException("Given User is not a Player");
+        }
         Event event = eventsRepository.getById(form.getEvent().getEventId());
-        Subscription subscription= subscriptionRepository.findByEvent_EventIdAndPlayer_UserId(event.getEventId(),player.getUserId());
+        Subscription subscription = subscriptionRepository.findFirstByEvent_EventIdAndPlayer_UserId(event.getEventId(),player.getUserId());
+
         player.removeSubscription(event);
         event.removeSubscription(subscription);
         userRepository.save(player);
+    }
+
+    /* Prepare form for POST purposes (GET ID FORM URL PARAM) and POST IT
+     * */
+    public RegisteredSubscription addSubscriptionRest(@NonNull RegisterSubscriptionForm form, UUID userId){
+        //validation
+        RegisterSubscriptionForm subForm = new RegisterSubscriptionForm(
+                userId,
+                form.isSubscriptionPaymentDone(),
+                form.getSubscriptionDate(),
+                form.isSubscriptionApproved(),
+                form.getEvent()
+        );
+
+        return addSubscription(subForm);
+    }
+    /* Prepare form for POST purposes (GET ID FORM URL PARAM) and POST IT
+     * */
+    public void removeSubscriptionRest(@NonNull RegisterSubscriptionForm form, UUID userId){
+        //validation
+       RemoveSubscriptionForm subForm = new RemoveSubscriptionForm(
+                userId,
+                form.getEvent()
+        );
+       removeSubscription(subForm);
     }
 
 }

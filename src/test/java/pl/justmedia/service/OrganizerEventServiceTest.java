@@ -4,13 +4,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.justmedia.entity.*;
-import pl.justmedia.service.dto.AddEventForm;
-import pl.justmedia.service.dto.AddSubscriptionForm;
+import pl.justmedia.entity.repositories.EventsRepository;
+import pl.justmedia.entity.repositories.UserRepository;
+import pl.justmedia.service.dto.RegisterEventForm;
 import pl.justmedia.service.dto.RemoveEventForm;
-import pl.justmedia.service.dto.RemoveSubscriptionForm;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,12 +36,12 @@ class OrganizerEventServiceTest {
         userRepository.save(organizer1);
 
         Organizer organizer = (Organizer) userRepository.getById(organizer1.getUserId());
-        final var event = new AddEventForm(
+        final var event = new RegisterEventForm(
                 organizer.getUserId(),
                 "TitleEvent",
-                LocalDateTime.now(),
-                10,
-                0
+                LocalDateTime.now().toString(),
+                "10",
+                "0"
         );
         final var addedEvent = organizerEventService.addEvent(event);
 
@@ -63,12 +62,12 @@ class OrganizerEventServiceTest {
         userRepository.save(organizer1);
 
         Organizer organizer = (Organizer) userRepository.getById(organizer1.getUserId());
-        final var event = new AddEventForm(
+        final var event = new RegisterEventForm(
                 organizer.getUserId(),
                 "TitleEvent",
-                LocalDateTime.now(),
-                10,
-                0
+                LocalDateTime.now().toString(),
+                "10",
+                "0"
         );
 
         final var addedEvent = organizerEventService.addEvent(event);

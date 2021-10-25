@@ -1,16 +1,12 @@
 package pl.justmedia.service;
 
-import lombok.NonNull;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.shadow.com.univocity.parsers.common.record.RecordMetaData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.justmedia.entity.Event;
 import pl.justmedia.entity.Player;
-import pl.justmedia.entity.Subscription;
-import pl.justmedia.entity.UserRepository;
-import pl.justmedia.service.dto.AddSubscriptionForm;
-import pl.justmedia.service.dto.RegisterPlayerForm;
+import pl.justmedia.entity.repositories.UserRepository;
+import pl.justmedia.service.dto.RegisterSubscriptionForm;
 import pl.justmedia.service.dto.RemoveSubscriptionForm;
 
 import javax.transaction.Transactional;
@@ -47,13 +43,13 @@ class PlayerSubscriptionServiceTest {
         userRepository.save(user1);
 
         Player player1 = (Player) userRepository.getById(user1.getUserId());
-        final var subscriptionForm = new AddSubscriptionForm(
+        final var subscriptionForm = new RegisterSubscriptionForm(
                 player1.getUserId(),
                 true,
                 LocalDateTime.now(),
                 true,
                 new Event("Test",LocalDateTime.now(),10,0));
-        final var addedSubscription = playerSubscriptionService.addSubscripton(subscriptionForm);
+        final var addedSubscription = playerSubscriptionService.addSubscription(subscriptionForm);
         assertNotNull(addedSubscription);
         assertEquals(player1.getPlayerSubscriptions().size(),1);
         assertEquals(player1.getPlayerSubscriptions().get(0).getSubscriptionId(),addedSubscription.getSubscriptionId());
@@ -80,7 +76,7 @@ class PlayerSubscriptionServiceTest {
 
         Player player1 = (Player) userRepository.getById(user1.getUserId());
         Event event = new Event("Test",LocalDateTime.now(),10,0);
-        final var subscriptionForm = new AddSubscriptionForm(
+        final var subscriptionForm = new RegisterSubscriptionForm(
                 player1.getUserId(),
                 true,
                 LocalDateTime.now(),
@@ -89,7 +85,7 @@ class PlayerSubscriptionServiceTest {
         final var removeSubscriptionForm = new RemoveSubscriptionForm(
                 player1.getUserId(),
                 event);
-        final var addedSubscription = playerSubscriptionService.addSubscripton(subscriptionForm);
+        final var addedSubscription = playerSubscriptionService.addSubscription(subscriptionForm);
         assertNotNull(addedSubscription);
         assertEquals(player1.getPlayerSubscriptions().size(),1);
         assertEquals(player1.getPlayerSubscriptions().get(0).getSubscriptionId(),addedSubscription.getSubscriptionId());

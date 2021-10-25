@@ -1,7 +1,6 @@
 package pl.justmedia.service.dto;
 
 import lombok.Value;
-import pl.justmedia.entity.UserType;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

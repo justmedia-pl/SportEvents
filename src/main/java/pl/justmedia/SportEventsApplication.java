@@ -3,30 +3,22 @@ package pl.justmedia;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import pl.justmedia.entity.*;
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.annotation.Profile;
-import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Component;
+import pl.justmedia.entity.repositories.EventsRepository;
+import pl.justmedia.entity.repositories.UserRepository;
 import pl.justmedia.service.OrganizerEventService;
 import pl.justmedia.service.PlayerSubscriptionService;
-import pl.justmedia.service.UserRegistrationService;
+import pl.justmedia.service.UserService;
 import pl.justmedia.service.dto.*;
 
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @SpringBootApplication
 public class SportEventsApplication {
 
     @Autowired
-    private UserRegistrationService service;
+    private UserService service;
     @Autowired
     EventsRepository eventsRepository;
     @Autowired
@@ -34,7 +26,8 @@ public class SportEventsApplication {
     @Autowired
     PlayerSubscriptionService playerSubscriptionService;
 
-    @Autowired UserRepository userRepository;
+    @Autowired
+    UserRepository userRepository;
 
         public static void main(String[] args) {
             SpringApplication.run(SportEventsApplication.class, args);
@@ -72,15 +65,15 @@ public class SportEventsApplication {
                         "PlayerName"
                 );
                 final var registeredOrganizerId = service.registerOrganizer(user2);
-                final var registeredEventId = organizerEventService.addEvent(new AddEventForm(
+                final var registeredEventId = organizerEventService.addEvent(new RegisterEventForm(
                         registeredOrganizerId.getUserId(),
                         "Title",
-                        LocalDateTime.now(),
-                        10,
-                        0
+                        LocalDateTime.now().toString(),
+                        "10",
+                        "0"
                 ));
-                final var registeredSubscriptionId = playerSubscriptionService.addSubscripton(
-                        new AddSubscriptionForm(
+                final var registeredSubscriptionId = playerSubscriptionService.addSubscription(
+                        new RegisterSubscriptionForm(
                                 registeredUserId.getUserId(),
                                 true,
                                 LocalDateTime.now(),

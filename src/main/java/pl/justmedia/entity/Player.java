@@ -1,10 +1,7 @@
 package pl.justmedia.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 import pl.justmedia.service.dto.PlayerDetails;
 import pl.justmedia.service.dto.PlayerView;
 import pl.justmedia.service.dto.RegisterOrganizerForm;
@@ -23,6 +20,7 @@ import java.util.stream.Collectors;
 @Entity
 @DiscriminatorValue("PLAYER")
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Player extends User {
     private String playerFirstName;
@@ -86,6 +84,28 @@ public class Player extends User {
             form.getPlayerLicence(),
             form.getPlayerPhone());
     }
+
+    public static Player updatePlayer(RegisterPlayerForm form, Player player){
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                player.setUserPassword(form.getUserPassword());
+        //player.setUserLogin(form.getUserLogin());
+                player.setUserEmail(form.getUserEmail());
+                player.setUserCity(form.getUserCity());
+                player.setUserStreet(form.getUserStreet());
+                player.setUserCountry(form.getUserCountry());
+                player.setUserZipCode(form.getUserZipCode());
+                player.setPlayerFirstName(form.getPlayerFirstName());
+                player.setPlayerLastName(form.getPlayerLastName());
+                player.setPlayerDOB(LocalDate.parse(form.getPlayerDOB(),formatter));
+                player.setPlayerTeamName(form.getPlayerTeamName());
+                player.setPlayerWeight(Double.parseDouble(form.getPlayerWeight()));
+                player.setPlayerAdditionalInfo(form.getPlayerAdditionalInfo());
+                player.setPlayerLicence(form.getPlayerLicence());
+                player.setPlayerPhone(form.getPlayerPhone());
+                return player;
+    }
+
+
     @Override
     public String getName() {
         return playerFirstName + " " + playerLastName;

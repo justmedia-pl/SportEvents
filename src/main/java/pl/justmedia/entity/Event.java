@@ -1,10 +1,7 @@
 package pl.justmedia.entity;
 
 import com.sun.istack.NotNull;
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.justmedia.service.PlayerSubscriptionService;
 import pl.justmedia.service.dto.EventDetails;
@@ -24,6 +21,7 @@ import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Setter
 @EqualsAndHashCode
 public class Event {
     @Id

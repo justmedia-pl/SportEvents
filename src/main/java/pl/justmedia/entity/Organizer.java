@@ -1,9 +1,6 @@
 package pl.justmedia.entity;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 import pl.justmedia.service.dto.*;
 import pl.justmedia.service.exception.EventException;
 import pl.justmedia.service.exception.SubscriptionException;
@@ -17,6 +14,7 @@ import java.util.stream.Collectors;
 @Entity
 @DiscriminatorValue("ORGANIZER")
 @Getter
+@Setter()
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Organizer extends User {
     private String organizerName;

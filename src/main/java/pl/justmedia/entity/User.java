@@ -1,7 +1,7 @@
 package pl.justmedia.entity;
 
 import lombok.*;
-import pl.justmedia.service.dto.PlayerView;
+import pl.justmedia.entity.enums.UserType;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -13,6 +13,7 @@ import java.util.UUID;
 @DiscriminatorColumn(name = "user_type")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Setter
 public abstract class User {
     @Id
     private UUID userId;

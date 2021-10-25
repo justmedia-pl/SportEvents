@@ -4,10 +4,9 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.justmedia.entity.*;
+import pl.justmedia.entity.repositories.EventsRepository;
 import pl.justmedia.service.dto.EventDetails;
 import pl.justmedia.service.dto.EventView;
-import pl.justmedia.service.dto.PlayerDetails;
-import pl.justmedia.service.dto.PlayerView;
 
 import java.util.List;
 import java.util.UUID;

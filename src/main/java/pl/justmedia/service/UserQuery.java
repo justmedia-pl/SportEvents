@@ -4,6 +4,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.justmedia.entity.*;
+import pl.justmedia.entity.enums.UserType;
+import pl.justmedia.entity.repositories.UserRepository;
 import pl.justmedia.service.dto.OrganizerDetails;
 import pl.justmedia.service.dto.OrganizerView;
 import pl.justmedia.service.dto.PlayerDetails;
