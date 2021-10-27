@@ -56,7 +56,16 @@ Request POST/PUT template for **PLAYER** user
 ```
 Request template for **Organizer** user
 ```
-
+{
+    "userPassword":"userpassword",
+    "userLogin":"user login",
+    "userEmail": "use remail",
+    "userCity": "user city",
+    "userStreet": "organizer street",
+    "userCountry": "organizer country",
+    "userZipCode": "organizer zipcode",
+    "orgnanizerName": "organizer name",
+}
 ```
 ####Add subscriptions from player
 ***{url_addres}/events/{userId}/subscription***
