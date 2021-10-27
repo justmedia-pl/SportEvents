@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.justmedia.entity.Organizer;
 import pl.justmedia.entity.Player;
+import pl.justmedia.entity.User;
 import pl.justmedia.entity.repositories.UserRepository;
 import pl.justmedia.service.dto.RegisterOrganizerForm;
 import pl.justmedia.service.dto.RegisterPlayerForm;
@@ -47,4 +48,11 @@ public class UserService {
         userRepository.save(organizer);
         return new RegisteredUserId(organizer.getUserId());
     }
+    public RegisteredUserId updateOrganizer(@NonNull RegisterOrganizerForm form, UUID userId) {
+        Organizer organizer = userRepository.getOrganizerByUserId(userId);
+        Organizer.updateOrganizer(form, organizer);
+        userRepository.save(organizer);
+        return new RegisteredUserId(organizer.getUserId());
+    }
+
 }

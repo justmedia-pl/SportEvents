@@ -8,8 +8,9 @@ import pl.justmedia.entity.enums.UserType;
 import pl.justmedia.entity.repositories.EventsRepository;
 import pl.justmedia.entity.repositories.SubscriptionRepository;
 import pl.justmedia.entity.repositories.UserRepository;
+import pl.justmedia.service.dto.DeletedSubscriptionId;
 import pl.justmedia.service.dto.RegisterSubscriptionForm;
-import pl.justmedia.service.dto.RegisteredSubscription;
+import pl.justmedia.service.dto.RegisteredSubscriptionId;
 import pl.justmedia.service.dto.RemoveSubscriptionForm;
 import pl.justmedia.service.exception.SubscriptionException;
 
@@ -28,10 +29,8 @@ public class PlayerSubscriptionService {
     @NonNull
     SubscriptionRepository subscriptionRepository;
 
-    public RegisteredSubscription addSubscription(@NonNull RegisterSubscriptionForm form){
-        if(userRepository.getById(form.getUserId()) == null){
-            throw new SubscriptionException("");
-        }
+    public RegisteredSubscriptionId addSubscription(@NonNull RegisterSubscriptionForm form){
+
         if (!(userRepository.getById(form.getUserId()).getUserType().equals(UserType.PLAYER))) {
             throw new SubscriptionException("Given user is not a Player");
             }
@@ -41,48 +40,57 @@ public class PlayerSubscriptionService {
                 form.isSubscriptionPaymentDone(),
                 LocalDateTime.now(),
                 form.isSubscriptionApproved(),
-                form.getEvent(),player);
+                eventsRepository.getById(form.getEventId()),player);
         player.addSubscription(subscription);
         userRepository.save(player);
-        return new RegisteredSubscription(player.getUserId(),subscription.getSubscriptionId());
+        return new RegisteredSubscriptionId(player.getUserId(),subscription.getSubscriptionId());
     }
 
-    public void removeSubscription(@NonNull RemoveSubscriptionForm form){
+    public UUID removeSubscription(@NonNull RemoveSubscriptionForm form){
         Player player = userRepository.getPlayerByUserId(form.getUserId());
+
         if (!player.getUserType().equals(UserType.PLAYER)) {
             throw new SubscriptionException("Given User is not a Player");
         }
-        Event event = eventsRepository.getById(form.getEvent().getEventId());
+        Event event = eventsRepository.getById(form.getEventId());
         Subscription subscription = subscriptionRepository.findFirstByEvent_EventIdAndPlayer_UserId(event.getEventId(),player.getUserId());
-
-        player.removeSubscription(event);
-        event.removeSubscription(subscription);
-        userRepository.save(player);
+        UUID removedSubscription = subscription.getSubscriptionId();
+        if (subscription != null) {
+            player.removeSubscription(event);
+            event.removeSubscription(subscription);
+            userRepository.save(player);
+            return removedSubscription;
+        }
+        return null;
     }
 
     /* Prepare form for POST purposes (GET ID FORM URL PARAM) and POST IT
      * */
-    public RegisteredSubscription addSubscriptionRest(@NonNull RegisterSubscriptionForm form, UUID userId){
+    public RegisteredSubscriptionId addSubscriptionRest(@NonNull RegisterSubscriptionForm form, UUID userId){
         //validation
         RegisterSubscriptionForm subForm = new RegisterSubscriptionForm(
                 userId,
                 form.isSubscriptionPaymentDone(),
                 form.getSubscriptionDate(),
                 form.isSubscriptionApproved(),
-                form.getEvent()
+                form.getEventId()
         );
 
         return addSubscription(subForm);
     }
     /* Prepare form for POST purposes (GET ID FORM URL PARAM) and POST IT
      * */
-    public void removeSubscriptionRest(@NonNull RegisterSubscriptionForm form, UUID userId){
+    public DeletedSubscriptionId removeSubscriptionRest(RemoveSubscriptionForm form, UUID userId){
         //validation
        RemoveSubscriptionForm subForm = new RemoveSubscriptionForm(
                 userId,
-                form.getEvent()
+                form.getEventId()
         );
-       removeSubscription(subForm);
+       UUID removedSubscription = removeSubscription(subForm);
+       if (removedSubscription == null){
+            throw new SubscriptionException("Subscription removing problem !");
+        }
+       return new DeletedSubscriptionId(userId,removedSubscription);
     }
 
 }

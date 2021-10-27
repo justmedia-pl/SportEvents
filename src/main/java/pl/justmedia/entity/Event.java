@@ -32,16 +32,21 @@ public class Event {
     private double eventFee;
     @OneToMany(cascade = CascadeType.ALL, mappedBy="event",orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Subscription> eventSubscriptions;
+    @ManyToOne()
+    @JoinColumn(name = "events_id",nullable=false)
+    private Organizer organizer;
 
     public Event(@NotNull String eventTitle,
                  @NotNull LocalDateTime eventDate,
                  @NotNull Integer eventPlayerLimit,
-                 @NotNull double eventFee) {
+                 @NotNull double eventFee,
+                 @NotNull Organizer organizer) {
         this.eventId = UUID.randomUUID();
         this.eventTitle = eventTitle;
         this.eventDate = eventDate;
         this.eventPlayerLimit = eventPlayerLimit;
         this.eventFee = eventFee;
+        this.organizer = organizer;
     }
     public void removeSubscription(Subscription subscription){
 
@@ -64,6 +69,7 @@ public class Event {
     }
     public EventDetails viewDetail(){
         return new EventDetails(getEventId(),
+                getOrganizer().getUserId(),
                 getEventTitle(),
                getEventDate(),
                 getEventPlayerLimit(),

@@ -18,8 +18,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Organizer extends User {
     private String organizerName;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "organizer_id")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy="organizer",orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Event> organizerEvents;
 
     public Organizer(String userPassword,
@@ -45,6 +44,18 @@ public class Organizer extends User {
                 form.getUserZipCode(),
                 form.getOrganizerName());
     }
+    public static Organizer updateOrganizer(RegisterOrganizerForm form, Organizer organizer) {
+       organizer.setUserPassword(form.getUserPassword());
+       organizer.setUserLogin(form.getUserLogin());
+       //organizer.setUserEmail(form.getUserEmail()),
+       organizer.setUserCity(form.getUserCity());
+       organizer.setUserStreet(form.getUserStreet());
+       organizer.setUserCountry(form.getUserCountry());
+       organizer.setUserZipCode(form.getUserZipCode());
+       organizer.setOrganizerName(form.getOrganizerName());
+       return organizer;
+    }
+
     public void addEvent(Event event){
         if(event != null) {
             if( !organizerEvents.contains(event)){

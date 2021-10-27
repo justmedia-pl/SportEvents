@@ -4,7 +4,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.justmedia.entity.Event;
+import pl.justmedia.entity.Organizer;
 import pl.justmedia.entity.Player;
+import pl.justmedia.entity.repositories.EventsRepository;
+import pl.justmedia.entity.repositories.SubscriptionRepository;
 import pl.justmedia.entity.repositories.UserRepository;
 import pl.justmedia.service.dto.RegisterSubscriptionForm;
 import pl.justmedia.service.dto.RemoveSubscriptionForm;
@@ -22,6 +25,10 @@ class PlayerSubscriptionServiceTest {
     private UserRepository userRepository;
     @Autowired
     private PlayerSubscriptionService playerSubscriptionService;
+    @Autowired
+    private EventsRepository eventRepository;
+    @Autowired
+    private SubscriptionRepository subscriptionRepository;
 
     @Test
     void shouldAddSubscriptionToPlayer(){
@@ -41,14 +48,26 @@ class PlayerSubscriptionServiceTest {
                 "",
                 "123123123");
         userRepository.save(user1);
+        final var organizer1 = new Organizer("123",
+                "player1",
+                "player@player.com",
+                "PlayerCity",
+                "PlayerStreet",
+                "Poland",
+                "00000",
+                "OrganizerName");
+        userRepository.save(organizer1);
 
+        Organizer organizer = (Organizer) userRepository.getById(organizer1.getUserId());
+        Event event = new Event("Test",LocalDateTime.now(),10,0,organizer);
         Player player1 = (Player) userRepository.getById(user1.getUserId());
+        eventRepository.save(event);
         final var subscriptionForm = new RegisterSubscriptionForm(
                 player1.getUserId(),
                 true,
                 LocalDateTime.now(),
                 true,
-                new Event("Test",LocalDateTime.now(),10,0));
+                event.getEventId());
         final var addedSubscription = playerSubscriptionService.addSubscription(subscriptionForm);
         assertNotNull(addedSubscription);
         assertEquals(player1.getPlayerSubscriptions().size(),1);
@@ -73,18 +92,29 @@ class PlayerSubscriptionServiceTest {
                 "",
                 "123123123");
         userRepository.save(user1);
+        final var organizer1 = new Organizer("123",
+                "player1",
+                "player@player.com",
+                "PlayerCity",
+                "PlayerStreet",
+                "Poland",
+                "00000",
+                "OrganizerName");
+        userRepository.save(organizer1);
 
+        Organizer organizer = (Organizer) userRepository.getById(organizer1.getUserId());
         Player player1 = (Player) userRepository.getById(user1.getUserId());
-        Event event = new Event("Test",LocalDateTime.now(),10,0);
+        Event event = new Event("Test",LocalDateTime.now(),10,0,organizer);
+        eventRepository.save(event);
         final var subscriptionForm = new RegisterSubscriptionForm(
                 player1.getUserId(),
                 true,
                 LocalDateTime.now(),
                 true,
-                event);
+                event.getEventId());
         final var removeSubscriptionForm = new RemoveSubscriptionForm(
                 player1.getUserId(),
-                event);
+                eventRepository.findByEventTitle("Test").get(0).getEventId());
         final var addedSubscription = playerSubscriptionService.addSubscription(subscriptionForm);
         assertNotNull(addedSubscription);
         assertEquals(player1.getPlayerSubscriptions().size(),1);

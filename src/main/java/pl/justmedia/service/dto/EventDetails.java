@@ -11,6 +11,7 @@ import java.util.UUID;
 @Value
 public class EventDetails {
     UUID eventId;
+    UUID organizerId;
     String Title;
     LocalDateTime eventDate;
     int eventPlayerLimit;

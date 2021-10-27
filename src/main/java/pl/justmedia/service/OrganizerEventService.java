@@ -24,12 +24,8 @@ public class OrganizerEventService {
     @NonNull
     private EventsRepository eventsRepository;
 
-    public RegisteredEvent addEvent(@NonNull RegisterEventForm form){
-        if(userRepository.getById(form.getUserId()) == null){
-            throw new SubscriptionException("");
-        }
-
-        if (!(userRepository.getById(form.getUserId()).getUserType().equals(UserType.ORGANIZER))) {
+    public RegisteredEventId addEvent(@NonNull RegisterEventForm form){
+      if (!(userRepository.getById(form.getUserId()).getUserType().equals(UserType.ORGANIZER))) {
             throw new SubscriptionException("Given user is not a Organizer");
         }
 
@@ -38,21 +34,28 @@ public class OrganizerEventService {
                 form.getEventTitle(),
                 LocalDateTime.parse(form.getEventDate()),
                 Integer.valueOf(form.getEventPlayerLimit()),
-                Double.valueOf(form.getEventFee()));
+                Double.parseDouble(form.getEventFee()),
+                organizer);
         organizer.addEvent(event);
         userRepository.save(organizer);
-        return new RegisteredEvent(organizer.getUserId(),event.getEventId());
+        return new RegisteredEventId(organizer.getUserId(),event.getEventId());
     }
-    public void removeEvent(@NonNull RemoveEventForm form){
+    public UUID removeEvent(@NonNull RemoveEventForm form){
+        if (eventsRepository.findEventSubscriptions(eventsRepository.getById(form.getEventId())).size() > 0){
+            throw new EventException("There are subscriptions for this event ! COULD NOT REMOVE !");
+        } //TODO FIND ACTIVE AND DEL ALL OTHERS BEFORE
         Organizer organizer = userRepository.getOrganizerByUserId(form.getUserId());
-        organizer.removeEvent(form.getEvent());
+        Event removedEvent = eventsRepository.getById(form.getEventId());
+        UUID removedEventId = removedEvent.getEventId();
+        organizer.removeEvent(removedEvent);
         userRepository.save(organizer);
+        return removedEventId;
     }
     /* Prepare form for POST purposes (GET ID FORM URL PARAM) and POST IT
     * Added LocalDateTime auto generation if null
     *
     * */
-    public RegisteredEvent addEventRest(@NonNull RegisterEventForm form, UUID userId){
+    public RegisteredEventId addEventRest(@NonNull RegisterEventForm form, UUID userId){
         //Some validation rules
         //TODO Extend Date Validation Class
         String formDate = form.getEventDate();
@@ -66,7 +69,7 @@ public class OrganizerEventService {
             throw new EventException("Event with given TITLE exists !");
         }
 
-        if (formDate.equals("") || formDate == null) {
+        if (formDate.equals("") ) {
             formDate = LocalDateTime.now().toString();
         }
         if (Integer.parseInt(formPlayerLimit) > 0){
@@ -85,12 +88,16 @@ public class OrganizerEventService {
         );
         return addEvent(userAddedForm);
     }
-    public void removeEventRest(@NonNull RemoveEventForm form, UUID userId){
+    public DeletedEventId removeEventRest(@NonNull RemoveEventForm form, UUID userId){
         RemoveEventForm subform = new RemoveEventForm(
                 userId,
-                form.getEvent()
+                form.getEventId()
         );
-        removeEvent(subform);
+        UUID removedEvent = removeEvent(subform);
+        if (removedEvent == null){
+            throw new SubscriptionException("Event removing problem !");
+        }
+        return new DeletedEventId(userId,removedEvent);
     }
 
 }

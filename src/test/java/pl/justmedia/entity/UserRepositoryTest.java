@@ -1,5 +1,6 @@
 package pl.justmedia.entity;
 
+import org.aspectj.weaver.ast.Or;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -125,8 +126,8 @@ class UserRepositoryTest {
                 "",
                 "",
                 "123123123");
-        Subscription subscription1 = new Subscription(true, LocalDateTime.of(2021,1,10,10,0),true,new Event("Event",LocalDateTime.now(),10,0),new Player());
-        Subscription subscription2 = new Subscription(true, LocalDateTime.of(2021,1,10,10,0),false,new Event("Event",LocalDateTime.now(),10,0),new Player());
+        Subscription subscription1 = new Subscription(true, LocalDateTime.of(2021,1,10,10,0),true,new Event("Event",LocalDateTime.now(),10,0, new Organizer()),new Player());
+        Subscription subscription2 = new Subscription(true, LocalDateTime.of(2021,1,10,10,0),false,new Event("Event",LocalDateTime.now(),10,0, new Organizer()),new Player());
         user1.addSubscription(subscription1);
         user1.addSubscription(subscription2);
         repository.saveAllAndFlush(List.of(user1));

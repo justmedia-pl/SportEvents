@@ -1,5 +1,6 @@
 package pl.justmedia.entity;
 
+import org.aspectj.weaver.ast.Or;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -11,7 +12,7 @@ class SubscriptionTest extends EntityTest {
         void souldSaveSubscription() {
         //given
        final var  subscription = new Subscription(true, LocalDateTime.of(2021,1,10,10,0),true,
-               new Event("Event",LocalDateTime.now(),10,0),new Player());
+               new Event("Event",LocalDateTime.now(),10,0, new Organizer()),new Player());
         //when
         persist(subscription);
         //then

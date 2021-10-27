@@ -15,5 +15,5 @@ public class RegisterSubscriptionForm {
    LocalDateTime subscriptionDate;
    boolean subscriptionApproved;
    @NonNull
-   Event event;
+   UUID eventId;
 }

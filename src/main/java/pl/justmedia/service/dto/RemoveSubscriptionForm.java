@@ -9,5 +9,5 @@ import java.util.UUID;
 @Value
 public class RemoveSubscriptionForm {
     UUID userId;
-    Event event;
+    UUID eventId;
 }

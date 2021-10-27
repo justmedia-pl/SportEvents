@@ -5,9 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.justmedia.entity.User;
 import pl.justmedia.service.OrganizerEventService;
-import pl.justmedia.service.PlayerSubscriptionService;
 import pl.justmedia.service.UserMainteneceService;
 import pl.justmedia.service.UserService;
 import pl.justmedia.service.dto.*;
@@ -19,10 +17,20 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserWriteRestController {
     @NonNull UserService userService;
-    @NonNull OrganizerEventService organizerEventService;
-    @NonNull PlayerSubscriptionService playerSubscriptionService;
     @NonNull UserMainteneceService userMainteneceService;
-
+    //TODO check patch mapping OR DO WITH PUT FOR ACTIVATE / DEACTIVATE USERS
+   /* @PatchMapping("/deactivate/{userId}")
+    ResponseEntity<RegisteredUserId> deactivateUser(@PathVariable UUID userId){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(userService.deactivateUser(userId));
+    }
+    @PatchMapping("/activate/{userId}")
+    ResponseEntity<RegisteredUserId> activateUser(@PathVariable UUID userId){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(userService.activateUser(userId));
+    }*/
     @PostMapping("/players")
     ResponseEntity<RegisteredUserId> registerUser(@RequestBody RegisterPlayerForm form){
         return ResponseEntity
@@ -35,12 +43,7 @@ public class UserWriteRestController {
                 .status(HttpStatus.OK)
                 .body(userService.updatePlayer(form,userId));
     }
-    @PostMapping("/players/{userId}/subscription")
-    ResponseEntity<RegisteredSubscription> registerSubscription(RegisterSubscriptionForm form, @PathVariable UUID userId){
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(playerSubscriptionService.addSubscriptionRest(form,userId));
-    }
+
 
     @PostMapping("/organizers")
     ResponseEntity<RegisteredUserId> registerOrganizer(@RequestBody RegisterOrganizerForm form){
@@ -48,12 +51,13 @@ public class UserWriteRestController {
                 .status(HttpStatus.CREATED)
                 .body(userService.registerOrganizer(form));
     }
-    @PostMapping("/organizers/{userId}/event")
-    ResponseEntity<RegisteredEvent> registerEvent(RegisterEventForm form, @PathVariable UUID userId){
+    @PutMapping("/organizers/{userId}")
+    ResponseEntity<RegisteredUserId> updateOrganizer(@RequestBody RegisterOrganizerForm form, @PathVariable UUID userId) {
         return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(organizerEventService.addEventRest(form,userId));
+                .status(HttpStatus.OK)
+                .body(userService.updateOrganizer(form,userId));
     }
+
 
 
 }

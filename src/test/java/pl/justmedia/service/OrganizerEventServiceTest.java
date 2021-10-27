@@ -72,7 +72,7 @@ class OrganizerEventServiceTest {
 
         final var addedEvent = organizerEventService.addEvent(event);
         final var removeEventForm = new RemoveEventForm(
-                organizer.getUserId(),eventsRepository.getById(addedEvent.getEventId())
+                organizer.getUserId(),addedEvent.getEventId()
                 );
 
         assertNotNull(addedEvent);

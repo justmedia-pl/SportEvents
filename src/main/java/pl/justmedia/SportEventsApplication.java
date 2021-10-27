@@ -78,7 +78,7 @@ public class SportEventsApplication {
                                 true,
                                 LocalDateTime.now(),
                                 true,
-                                eventsRepository.getById(registeredEventId.getEventId())
+                               registeredEventId.getEventId()
                         ));
 
               /*playerSubscriptionService.removeSubscription(new RemoveSubscriptionForm(
