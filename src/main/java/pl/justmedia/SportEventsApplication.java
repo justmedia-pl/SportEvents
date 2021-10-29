@@ -2,20 +2,25 @@ package pl.justmedia;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import pl.justmedia.entity.repositories.EventsRepository;
 import pl.justmedia.entity.repositories.UserRepository;
 import pl.justmedia.service.OrganizerEventService;
 import pl.justmedia.service.PlayerSubscriptionService;
 import pl.justmedia.service.UserService;
-import pl.justmedia.service.dto.*;
+import pl.justmedia.service.dto.RegisterEventForm;
+import pl.justmedia.service.dto.RegisterOrganizerForm;
+import pl.justmedia.service.dto.RegisterPlayerForm;
+import pl.justmedia.service.dto.RegisterSubscriptionForm;
 
 import java.time.LocalDateTime;
 
 @SpringBootApplication
-public class SportEventsApplication {
+public class SportEventsApplication extends SpringBootServletInitializer {
 
     @Autowired
     private UserService service;
@@ -34,6 +39,7 @@ public class SportEventsApplication {
         }
 
         @Bean
+        @Profile("dev")
         InitializingBean sendDatabase() {
             return () -> {
                 // INITIALIZE

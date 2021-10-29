@@ -2,11 +2,11 @@ package pl.justmedia.entity.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import pl.justmedia.entity.Organizer;
 import pl.justmedia.entity.Player;
 import pl.justmedia.entity.Subscription;
 import pl.justmedia.entity.User;
+import pl.justmedia.entity.enums.UserType;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,6 +20,8 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     List<User> findByUserLogin(String userLogin);
     List<Player> findByPlayerTeamName(String playerTeamName);
     List<Organizer> findByOrganizerName(String organizerName);
+    @Query("select u.userType from User u where u.userId =  upper(?1) ")
+    UserType getUserType(UUID userId);
     @Query("from User u where u.userType = pl.justmedia.entity.enums.UserType.PLAYER")
     List<Player> getAllPlayers ();
     @Query("from User u where u.userType = pl.justmedia.entity.enums.UserType.ORGANIZER")

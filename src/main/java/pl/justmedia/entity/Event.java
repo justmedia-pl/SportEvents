@@ -2,16 +2,13 @@ package pl.justmedia.entity;
 
 import com.sun.istack.NotNull;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import pl.justmedia.service.PlayerSubscriptionService;
 import pl.justmedia.service.dto.EventDetails;
 import pl.justmedia.service.dto.EventView;
-import pl.justmedia.service.dto.PlayerDetails;
-import pl.justmedia.service.dto.PlayerView;
 import pl.justmedia.service.exception.SubscriptionException;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -30,10 +27,10 @@ public class Event {
     private LocalDateTime eventDate;
     private int eventPlayerLimit;
     private double eventFee;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="event",orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "event", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Subscription> eventSubscriptions;
     @ManyToOne()
-    @JoinColumn(name = "events_id",nullable=false)
+    @JoinColumn(name = "events_id", nullable = false)
     private Organizer organizer;
 
     public Event(@NotNull String eventTitle,
@@ -47,19 +44,32 @@ public class Event {
         this.eventPlayerLimit = eventPlayerLimit;
         this.eventFee = eventFee;
         this.organizer = organizer;
+        this.eventSubscriptions = new ArrayList<>();
     }
-    public void removeSubscription(Subscription subscription){
+    public void addSubscription(Subscription subscription) {
 
-   if(subscription != null) {
+        if (subscription != null) {
 
-       if( eventSubscriptions.contains(subscription)){
+            if (!eventSubscriptions.contains(subscription)) {
+                eventSubscriptions.add(subscription);
+            } else {
+                throw new SubscriptionException("Subscription for this event is on the list of this Player");
+            }
+        }
+    }
+    public void removeSubscription(Subscription subscription) {
+
+        if (subscription != null) {
+
+            if (eventSubscriptions.contains(subscription)) {
                 eventSubscriptions.remove(subscription);
-       } else {
-            throw new SubscriptionException("Subscription for this event not exist for this Player");
-         }
-   }
+            } else {
+                throw new SubscriptionException("Subscription for this event not exist for this Player");
+            }
+        }
     }
-    public EventView toView(){
+
+    public EventView toView() {
         return new EventView(eventId,
                 eventTitle,
                 eventDate,
@@ -67,11 +77,12 @@ public class Event {
                 eventFee,
                 eventSubscriptions.size());
     }
-    public EventDetails viewDetail(){
+
+    public EventDetails viewDetail() {
         return new EventDetails(getEventId(),
                 getOrganizer().getUserId(),
                 getEventTitle(),
-               getEventDate(),
+                getEventDate(),
                 getEventPlayerLimit(),
                 getEventFee(),
                 getEventSubscriptions().stream().map(Subscription::toEventView).collect(Collectors.toList()));

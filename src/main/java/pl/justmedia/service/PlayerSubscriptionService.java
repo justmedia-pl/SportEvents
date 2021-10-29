@@ -31,27 +31,31 @@ public class PlayerSubscriptionService {
 
     public RegisteredSubscriptionId addSubscription(@NonNull RegisterSubscriptionForm form){
 
-        if (!(userRepository.getById(form.getUserId()).getUserType().equals(UserType.PLAYER))) {
+        if (!(userRepository.getUserType(form.getUserId()).equals(UserType.PLAYER))) {
             throw new SubscriptionException("Given user is not a Player");
             }
 
         Player player = userRepository.getPlayerByUserId(form.getUserId());
+        Event event = eventsRepository.getById(form.getEventId());
         Subscription subscription = new Subscription(
                 form.isSubscriptionPaymentDone(),
                 LocalDateTime.now(),
                 form.isSubscriptionApproved(),
-                eventsRepository.getById(form.getEventId()),player);
+                event,player);
         player.addSubscription(subscription);
+        event.addSubscription(subscription);
+        eventsRepository.save(event);
         userRepository.save(player);
         return new RegisteredSubscriptionId(player.getUserId(),subscription.getSubscriptionId());
     }
 
     public UUID removeSubscription(@NonNull RemoveSubscriptionForm form){
-        Player player = userRepository.getPlayerByUserId(form.getUserId());
-
-        if (!player.getUserType().equals(UserType.PLAYER)) {
+        if (!(userRepository.getUserType(form.getUserId()).equals(UserType.PLAYER))) {
             throw new SubscriptionException("Given User is not a Player");
         }
+        Player player = userRepository.getPlayerByUserId(form.getUserId());
+
+
         Event event = eventsRepository.getById(form.getEventId());
         Subscription subscription = subscriptionRepository.findFirstByEvent_EventIdAndPlayer_UserId(event.getEventId(),player.getUserId());
         UUID removedSubscription = subscription.getSubscriptionId();

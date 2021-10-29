@@ -3,6 +3,7 @@ package pl.justmedia.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import pl.justmedia.entity.Event;
 import pl.justmedia.entity.Organizer;
 import pl.justmedia.entity.Player;
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
+@ActiveProfiles("test")
 @Transactional
 class PlayerSubscriptionServiceTest {
     @Autowired
@@ -78,7 +80,7 @@ class PlayerSubscriptionServiceTest {
     void shouldAddSubscriptionToPlayerAndRemoveIt(){
         final var user1 = new Player("123",
                 "player1",
-                "player@player.com",
+                "player51@player.com",
                 "PlayerCity",
                 "PlayerStreet",
                 "Poland",
@@ -94,7 +96,7 @@ class PlayerSubscriptionServiceTest {
         userRepository.save(user1);
         final var organizer1 = new Organizer("123",
                 "player1",
-                "player@player.com",
+                "player55@player.com",
                 "PlayerCity",
                 "PlayerStreet",
                 "Poland",
@@ -114,7 +116,7 @@ class PlayerSubscriptionServiceTest {
                 event.getEventId());
         final var removeSubscriptionForm = new RemoveSubscriptionForm(
                 player1.getUserId(),
-                eventRepository.findByEventTitle("Test").get(0).getEventId());
+                event.getEventId());
         final var addedSubscription = playerSubscriptionService.addSubscription(subscriptionForm);
         assertNotNull(addedSubscription);
         assertEquals(player1.getPlayerSubscriptions().size(),1);

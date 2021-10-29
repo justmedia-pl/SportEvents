@@ -1,9 +1,10 @@
 package pl.justmedia.entity;
 
 import lombok.*;
-import pl.justmedia.service.dto.*;
+import pl.justmedia.service.dto.OrganizerDetails;
+import pl.justmedia.service.dto.OrganizerView;
+import pl.justmedia.service.dto.RegisterOrganizerForm;
 import pl.justmedia.service.exception.EventException;
-import pl.justmedia.service.exception.SubscriptionException;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Organizer extends User {
     private String organizerName;
-    @OneToMany(cascade = CascadeType.ALL,mappedBy="organizer",orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "organizer", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Event> organizerEvents;
 
     public Organizer(String userPassword,
@@ -35,7 +36,7 @@ public class Organizer extends User {
     }
 
     public static Organizer createWith(RegisterOrganizerForm form) {
-        return new Organizer (form.getUserPassword(),
+        return new Organizer(form.getUserPassword(),
                 form.getUserLogin(),
                 form.getUserEmail(),
                 form.getUserCity(),
@@ -44,30 +45,32 @@ public class Organizer extends User {
                 form.getUserZipCode(),
                 form.getOrganizerName());
     }
+
     public static Organizer updateOrganizer(RegisterOrganizerForm form, Organizer organizer) {
-       organizer.setUserPassword(form.getUserPassword());
-       organizer.setUserLogin(form.getUserLogin());
-       //organizer.setUserEmail(form.getUserEmail()),
-       organizer.setUserCity(form.getUserCity());
-       organizer.setUserStreet(form.getUserStreet());
-       organizer.setUserCountry(form.getUserCountry());
-       organizer.setUserZipCode(form.getUserZipCode());
-       organizer.setOrganizerName(form.getOrganizerName());
-       return organizer;
+        organizer.setUserPassword(form.getUserPassword());
+        organizer.setUserLogin(form.getUserLogin());
+        //organizer.setUserEmail(form.getUserEmail()),
+        organizer.setUserCity(form.getUserCity());
+        organizer.setUserStreet(form.getUserStreet());
+        organizer.setUserCountry(form.getUserCountry());
+        organizer.setUserZipCode(form.getUserZipCode());
+        organizer.setOrganizerName(form.getOrganizerName());
+        return organizer;
     }
 
-    public void addEvent(Event event){
-        if(event != null) {
-            if( !organizerEvents.contains(event)){
+    public void addEvent(Event event) {
+        if (event != null) {
+            if (!organizerEvents.contains(event)) {
                 organizerEvents.add(event);
             } else {
                 throw new EventException("Event already exist for this Organizer");
             }
         }
     }
-    public void removeEvent(Event event){
-        if(event != null) {
-            if( organizerEvents.contains(event)){
+
+    public void removeEvent(Event event) {
+        if (event != null) {
+            if (organizerEvents.contains(event)) {
                 organizerEvents.remove(event);
             } else {
                 throw new EventException("Event for this organizer not exist");
@@ -94,7 +97,8 @@ public class Organizer extends User {
     public int hashCode() {
         return Objects.hash(super.hashCode(), organizerName);
     }
-    public OrganizerView toOrganizerView(){
+
+    public OrganizerView toOrganizerView() {
         return new OrganizerView(getUserId(),
                 getName(),
                 getUserEmail(),
@@ -102,9 +106,10 @@ public class Organizer extends User {
                 getOrganizerEvents().size(),
                 isUserActive());
     }
-    public OrganizerDetails viewDetail(){
+
+    public OrganizerDetails viewDetail() {
         return new OrganizerDetails(getUserId(),
-               getOrganizerName(),
+                getOrganizerName(),
                 getUserEmail(),
                 getUserType(),
                 getUserCity(),
@@ -112,6 +117,6 @@ public class Organizer extends User {
                 getUserCountry(),
                 getUserZipCode(),
                 getOrganizerEvents().stream().map(Event::toView).collect(Collectors.toList())
-               );
+        );
     }
 }

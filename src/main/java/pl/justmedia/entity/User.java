@@ -50,7 +50,6 @@ public abstract class User {
     public abstract String getName();
 
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -64,8 +63,8 @@ public abstract class User {
         return Objects.hash(userId, userEmail);
     }
 
-    public void setUserActive(boolean active){
-        this.userActive =  active;
+    public void setUserActive(boolean active) {
+        this.userActive = active;
     }
 
 
