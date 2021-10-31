@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ master ]
 env:
-  IMAGE_NAME: sporteventapp
+  IMAGE_NAME: sporteventapp:latest
 jobs:
 
   build:
@@ -41,9 +41,9 @@ jobs:
         with:
           context: ./
           file: ./Dockerfile
-          push: true
           tags: |
           justmediapl/$IMAGE_NAME
           ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME
+          push: true
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
