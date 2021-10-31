@@ -41,8 +41,8 @@ jobs:
         with:
           context: ./
           file: ./Dockerfile
-          tags: |
-          justmediapl/sporteventapp:latest
           push: true
+          tags: justmediapl/sporteventapp:latest
+
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
