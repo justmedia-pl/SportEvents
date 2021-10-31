@@ -44,7 +44,7 @@ jobs:
           push: true
           tags: |
             justmediapl/sporteventapp:latest
-            ghcr.io/justmedia-pl/SportEvents/sporteventapp:latest
+            ghcr.io/justmedia-pl/sportevents/sporteventapp:latest
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
