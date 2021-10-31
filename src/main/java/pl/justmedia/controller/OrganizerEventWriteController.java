@@ -19,7 +19,7 @@ public class OrganizerEventWriteController {
     @NonNull OrganizerEventService organizerEventService;
 
     @PostMapping("/{userId}/event")
-    ResponseEntity<RegisteredEventId> registerEvent(RegisterEventForm form, @PathVariable UUID userId){
+    ResponseEntity<RegisteredEventId> registerEvent(@RequestBody RegisterEventForm form, @PathVariable UUID userId){
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(organizerEventService.addEventRest(form,userId));
