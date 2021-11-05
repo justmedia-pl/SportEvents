@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
+import pl.justmedia.entity.User;
 import pl.justmedia.entity.repositories.EventsRepository;
 import pl.justmedia.entity.repositories.UserRepository;
 import pl.justmedia.service.OrganizerEventService;
@@ -18,6 +19,7 @@ import pl.justmedia.service.dto.RegisterPlayerForm;
 import pl.justmedia.service.dto.RegisterSubscriptionForm;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 @SpringBootApplication
 public class SportEventsApplication extends SpringBootServletInitializer {
@@ -45,7 +47,7 @@ public class SportEventsApplication extends SpringBootServletInitializer {
                 // INITIALIZE
 
                 final var user1 = new RegisterPlayerForm("123",
-                        "player1",
+                        "player",
                         "player@player.com",
                         "PlayerCity",
                         "PlayerStreet",
@@ -86,7 +88,9 @@ public class SportEventsApplication extends SpringBootServletInitializer {
                                 true,
                                registeredEventId.getEventId()
                         ));
-
+                User user = userRepository.getOrganizerByUserId(registeredOrganizerId.getUserId());
+                user.setUserRoles(Arrays.asList("ROLE_ADMIN","ROLE_USER"));
+                userRepository.save(user);
               /*playerSubscriptionService.removeSubscription(new RemoveSubscriptionForm(
                       registeredUserId.getUserId(),
                       eventsRepository.getById(registeredEventId.getEventId())

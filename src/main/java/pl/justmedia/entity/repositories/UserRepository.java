@@ -9,15 +9,19 @@ import pl.justmedia.entity.User;
 import pl.justmedia.entity.enums.UserType;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface UserRepository extends JpaRepository<User, UUID> {
 
     User findByUserEmail(String userEmail);
+    User getByUserEmail(String userEmail);
+    User getByUserLogin(String userLogin);
+    Optional<User> findByUserLogin (String userLogin);
     Player getPlayerByUserId(UUID userId);
     Organizer getOrganizerByUserId(UUID userId);
     List<User> findByUserActive(boolean active);
-    List<User> findByUserLogin(String userLogin);
+
     List<Player> findByPlayerTeamName(String playerTeamName);
     List<Organizer> findByOrganizerName(String organizerName);
     @Query("select u.userType from User u where u.userId =  upper(?1) ")
@@ -27,8 +31,10 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Query("from User u where u.userType = pl.justmedia.entity.enums.UserType.ORGANIZER")
     List<Organizer> getAllOrganizers ();
     Player findPlayerByUserId(UUID userId);
-    @Query("select (count(u) > 0) from User u where upper(u.userEmail) = upper(?1)")
-    boolean emailExists(String email);
+    @Query("select (count(u) > 0) from User u where upper(u.userEmail) = upper(?1) and u.userId <> (?2)")
+    boolean emailExists(String email, UUID userId);
+    @Query("select (count(u) > 0) from User u where upper(u.userLogin) = upper(?1) and u.userId <> (?2)")
+    boolean loginExists(String login, UUID userId);
     @Query("select p.playerSubscriptions from Player p where p.userEmail = ?1")
     List<Subscription> findSubscriptionsForUserEmail(String userEmail);
 }

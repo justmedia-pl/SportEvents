@@ -24,15 +24,18 @@ public class UserService {
     private final UserRepository userRepository;
 
     public RegisteredUserId registerPlayer(@NonNull RegisterPlayerForm form) throws EmailAlreadyExistException {
-        if (userRepository.emailExists(form.getUserEmail()))
-        {
-            throw new EmailAlreadyExistException("Account with email exist: "+form.getUserEmail());
+        if (userRepository.emailExists(form.getUserEmail(),null) || userRepository.loginExists(form.getUserEmail(),null)) {
+            throw new EmailAlreadyExistException("Account with email or name exists");
         }
         Player player = Player.createWith(form);
         userRepository.save(player);
         return new RegisteredUserId(player.getUserId());
     }
+
     public RegisteredUserId updatePlayer(@NonNull RegisterPlayerForm form, UUID userId) {
+        if (userRepository.emailExists(form.getUserEmail(),userId) || userRepository.loginExists(form.getUserEmail(),userId)) {
+            throw new EmailAlreadyExistException("Account with email or name exists");
+        }
         Player player = userRepository.getPlayerByUserId(userId);
         Player.updatePlayer(form, player);
         userRepository.save(player);
@@ -40,15 +43,18 @@ public class UserService {
     }
 
     public RegisteredUserId registerOrganizer(@NonNull RegisterOrganizerForm form) throws EmailAlreadyExistException {
-        if (userRepository.emailExists(form.getUserEmail()))
-        {
-            throw new EmailAlreadyExistException("Account with email exist: "+form.getUserEmail());
+        if (userRepository.emailExists(form.getUserEmail(),null) || userRepository.loginExists(form.getUserEmail(),null)) {
+            throw new EmailAlreadyExistException("Account with email or name exists");
         }
         Organizer organizer = Organizer.createWith(form);
         userRepository.save(organizer);
         return new RegisteredUserId(organizer.getUserId());
     }
+
     public RegisteredUserId updateOrganizer(@NonNull RegisterOrganizerForm form, UUID userId) {
+        if (userRepository.emailExists(form.getUserEmail(),userId) || userRepository.loginExists(form.getUserEmail(),userId)) {
+            throw new EmailAlreadyExistException("Account with email or name exists");
+        }
         Organizer organizer = userRepository.getOrganizerByUserId(userId);
         Organizer.updateOrganizer(form, organizer);
         userRepository.save(organizer);
