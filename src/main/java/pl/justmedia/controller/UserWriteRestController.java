@@ -51,14 +51,14 @@ public class UserWriteRestController {
 
 
     @PostMapping("/organizers")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     ResponseEntity<RegisteredUserId> registerOrganizer(@RequestBody RegisterOrganizerForm form){
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(userService.registerOrganizer(form));
     }
     @PutMapping("/organizers/{userId}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     ResponseEntity<RegisteredUserId> updateOrganizer(@RequestBody RegisterOrganizerForm form, @PathVariable UUID userId) {
         return ResponseEntity
                 .status(HttpStatus.OK)

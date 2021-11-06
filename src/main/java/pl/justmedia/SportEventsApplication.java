@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
+import org.springframework.transaction.annotation.Transactional;
 import pl.justmedia.entity.User;
 import pl.justmedia.entity.repositories.EventsRepository;
 import pl.justmedia.entity.repositories.UserRepository;
@@ -41,8 +42,26 @@ public class SportEventsApplication extends SpringBootServletInitializer {
         }
 
         @Bean
+        InitializingBean adminData() {
+            return () -> {
+                final var admin = new RegisterOrganizerForm("admin",
+                        "admin",
+                        "admin@admin.com",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "SportEvent"
+                );
+                final var registeredOrganizerId = service.registerOrganizer(admin);
+                service.updateUserRoles(registeredOrganizerId.getUserId(),"ROLE_ADMIN");
+
+            };
+        }
+
+        @Bean
         @Profile("dev")
-        InitializingBean sendDatabase() {
+        InitializingBean sampleData() {
             return () -> {
                 // INITIALIZE
 
@@ -84,7 +103,7 @@ public class SportEventsApplication extends SpringBootServletInitializer {
                         new RegisterSubscriptionForm(
                                 registeredUserId.getUserId(),
                                 true,
-                                LocalDateTime.now(),
+                                LocalDateTime.now().toString(),
                                 true,
                                registeredEventId.getEventId()
                         ));

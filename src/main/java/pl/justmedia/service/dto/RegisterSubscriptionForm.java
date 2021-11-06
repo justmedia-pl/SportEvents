@@ -9,10 +9,10 @@ import java.util.UUID;
 
 @Value
 public class RegisterSubscriptionForm {
-  @NonNull
+
    UUID userId;
    boolean subscriptionPaymentDone;
-   LocalDateTime subscriptionDate;
+   String subscriptionDate;
    boolean subscriptionApproved;
    @NonNull
    UUID eventId;

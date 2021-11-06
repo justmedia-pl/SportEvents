@@ -67,7 +67,7 @@ class PlayerSubscriptionServiceTest {
         final var subscriptionForm = new RegisterSubscriptionForm(
                 player1.getUserId(),
                 true,
-                LocalDateTime.now(),
+                LocalDateTime.now().toString(),
                 true,
                 event.getEventId());
         final var addedSubscription = playerSubscriptionService.addSubscription(subscriptionForm);
@@ -111,7 +111,7 @@ class PlayerSubscriptionServiceTest {
         final var subscriptionForm = new RegisterSubscriptionForm(
                 player1.getUserId(),
                 true,
-                LocalDateTime.now(),
+                LocalDateTime.now().toString(),
                 true,
                 event.getEventId());
         final var removeSubscriptionForm = new RemoveSubscriptionForm(
