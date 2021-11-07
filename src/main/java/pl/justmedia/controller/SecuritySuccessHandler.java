@@ -29,17 +29,20 @@ public class SecuritySuccessHandler implements AuthenticationSuccessHandler {
         String type = "";
         UserType userType;
       if (authentication.getPrincipal() instanceof UserDetails) {
-          SecurityUserDetails userDetails = (SecurityUserDetails) authentication.getPrincipal();
-          userType = userRepository.getUserType(userDetails.getUserId());
-         switch (userType) {
-             case PLAYER:
-                 type = "api/players";
-                 break;
-             case ORGANIZER:
-                 type = "api/organizers";
-                 break;
-         }
-          redirectUrl += type + "/"+userDetails.getUserId();
+              SecurityUserDetails userDetails = (SecurityUserDetails) authentication.getPrincipal();
+              if(!userDetails.isEnabled()){
+                  throw new IllegalStateException();
+              }
+              userType = userRepository.getUserType(userDetails.getUserId());
+             switch (userType) {
+                 case PLAYER:
+                     type = "api/players";
+                     break;
+                 case ORGANIZER:
+                     type = "api/organizers";
+                     break;
+             }
+              redirectUrl += type + "/"+userDetails.getUserId();
           new DefaultRedirectStrategy().sendRedirect(request, response, redirectUrl);
       } else {
             throw new IllegalStateException();

@@ -3,6 +3,8 @@ package pl.justmedia.entity;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 import pl.justmedia.service.dto.SubscriptionEventView;
 import pl.justmedia.service.dto.SubscriptionView;
 
@@ -18,6 +20,7 @@ import java.util.UUID;
 
 public class Subscription {
     @Id
+    @Type(type="uuid-char")
     private UUID subscriptionId;
     private boolean subscriptionPaymentDone;
     private LocalDateTime subscriptionDate;

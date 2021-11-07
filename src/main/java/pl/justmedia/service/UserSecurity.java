@@ -21,7 +21,7 @@ public class UserSecurity {
             SecurityUserDetails userDetails = (SecurityUserDetails) authentication.getPrincipal();
             System.out.println(userRepository.getById(userDetails.getUserId()).getUserLogin());
            return userId.equals(userRepository.getById(userDetails.getUserId()).getUserId());
-            }
+           }
         return false;
     }
 }

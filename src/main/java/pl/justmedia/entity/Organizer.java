@@ -1,6 +1,8 @@
 package pl.justmedia.entity;
 
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import pl.justmedia.service.dto.OrganizerDetails;
 import pl.justmedia.service.dto.OrganizerView;
 import pl.justmedia.service.dto.RegisterOrganizerForm;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 public class Organizer extends User {
     private String organizerName;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "organizer", orphanRemoval = true, fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Event> organizerEvents;
 
     public Organizer(String userPassword,

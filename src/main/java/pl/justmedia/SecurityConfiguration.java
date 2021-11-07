@@ -43,6 +43,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/organizers/{userId}/**")
                 .access("@userSecurity.hasUserId(authentication,#userId) or hasRole('ADMIN')")
                 .antMatchers("/api/organizers/**").hasAnyRole("ADMIN")
+                .antMatchers("/api/admin/**").hasAnyRole("ADMIN")
                 .antMatchers("/api/events/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .and()
@@ -55,15 +56,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().httpBasic() //TODO DISABLE FOR PRODUCTION - POSTMAN
                 .and()
                 .csrf().disable(); //TODO DISABLE FOR PRODUCTION - POSTMAN
-    }
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth)
-            throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("admin")
-                .password("admin")
-                .roles("ADMIN", "USER");
     }
 
     @Bean

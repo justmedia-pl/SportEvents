@@ -17,32 +17,19 @@ import java.util.UUID;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class UserWriteRestController {
-    @NonNull UserService userService;
-    @NonNull UserMainteneceService userMainteneceService;
+    @NonNull private final UserService userService;
+    @NonNull private final UserMainteneceService userMainteneceService;
     //TODO check patch mapping OR DO WITH PUT FOR ACTIVATE / DEACTIVATE USERS
-   /* @PatchMapping("/deactivate/{userId}")
-   @PreAuthorize("hasAuthority('ADMIN')")
-    ResponseEntity<RegisteredUserId> deactivateUser(@PathVariable UUID userId){
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(userService.deactivateUser(userId));
-    }
-    @PatchMapping("/activate/{userId}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    ResponseEntity<RegisteredUserId> activateUser(@PathVariable UUID userId){
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(userService.activateUser(userId));
-    }*/
+
     @PostMapping("/players")
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     ResponseEntity<RegisteredUserId> registerUser(@RequestBody RegisterPlayerForm form){
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(userService.registerPlayer(form));
     }
     @PutMapping("/players/{userId}")
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     ResponseEntity<RegisteredUserId> updatePlayer(@RequestBody RegisterPlayerForm form, @PathVariable UUID userId) {
         return ResponseEntity
                 .status(HttpStatus.OK)

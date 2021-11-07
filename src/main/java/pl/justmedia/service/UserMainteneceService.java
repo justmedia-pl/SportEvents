@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.justmedia.entity.User;
 import pl.justmedia.entity.repositories.UserRepository;
+import pl.justmedia.service.dto.MaintenanceUserId;
 
 import java.util.UUID;
 
@@ -16,14 +17,16 @@ public class UserMainteneceService {
     @NonNull
     private final UserRepository userRepository;
 
-    public void deactivateUser(UUID userId){
+    public MaintenanceUserId deactivateUser(UUID userId){
         User user = userRepository.getById(userId);
         user.setUserActive(false);
         userRepository.save(user);
+        return new MaintenanceUserId(userId);
     }
-    public void activateUser(UUID userId){
+    public MaintenanceUserId activateUser(UUID userId){
         User user = userRepository.getById(userId);
         user.setUserActive(true);
         userRepository.save(user);
+        return new MaintenanceUserId(userId);
     }
 }

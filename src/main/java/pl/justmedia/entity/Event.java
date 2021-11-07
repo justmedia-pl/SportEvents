@@ -2,6 +2,8 @@ package pl.justmedia.entity;
 
 import com.sun.istack.NotNull;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 import pl.justmedia.service.dto.EventDetails;
 import pl.justmedia.service.dto.EventView;
 import pl.justmedia.service.exception.SubscriptionException;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 @EqualsAndHashCode
 public class Event {
     @Id
+    @Type(type="uuid-char")
     private UUID eventId;
     private String eventTitle;
     private LocalDateTime eventDate;

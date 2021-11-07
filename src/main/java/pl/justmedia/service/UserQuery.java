@@ -6,10 +6,7 @@ import org.springframework.stereotype.Component;
 import pl.justmedia.entity.*;
 import pl.justmedia.entity.enums.UserType;
 import pl.justmedia.entity.repositories.UserRepository;
-import pl.justmedia.service.dto.OrganizerDetails;
-import pl.justmedia.service.dto.OrganizerView;
-import pl.justmedia.service.dto.PlayerDetails;
-import pl.justmedia.service.dto.PlayerView;
+import pl.justmedia.service.dto.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,7 +19,13 @@ public class UserQuery {
 
     @NonNull
     private final UserRepository userRepository;
+    public List<UserView> listAllUsers(){
 
+        List<UserView> collect = userRepository.findAll().stream()
+                .map(User::toUserView)
+                .collect(Collectors.toList());
+        return collect;
+    }
 
     public List<PlayerView> listPlayers(){
 

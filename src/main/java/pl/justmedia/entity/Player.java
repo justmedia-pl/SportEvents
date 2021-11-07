@@ -2,6 +2,8 @@ package pl.justmedia.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import pl.justmedia.service.dto.PlayerDetails;
 import pl.justmedia.service.dto.PlayerView;
 import pl.justmedia.service.dto.RegisterOrganizerForm;
@@ -34,6 +36,7 @@ public class Player extends User {
 
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy="player",orphanRemoval = true, fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Subscription> playerSubscriptions;
 
     public Player(String userPassword,

@@ -1,9 +1,13 @@
 package pl.justmedia.entity;
 
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import pl.justmedia.entity.enums.UserType;
+import pl.justmedia.service.dto.PlayerView;
+import pl.justmedia.service.dto.UserView;
 
 import javax.persistence.*;
 import java.util.*;
@@ -17,6 +21,7 @@ import java.util.*;
 @Setter
 public abstract class User {
     @Id
+    @Type(type="uuid-char")
     private UUID userId;
     @Column(name = "user_type", insertable = false, updatable = false)
     @Enumerated(EnumType.STRING)
@@ -71,6 +76,13 @@ public abstract class User {
         this.userActive = active;
     }
 
+    public UserView toUserView(){
+        return new UserView(getUserId(),
+                getName(),
+                getUserEmail(),
+                getUserType(),
+                isUserActive());
+    }
 
 }
 

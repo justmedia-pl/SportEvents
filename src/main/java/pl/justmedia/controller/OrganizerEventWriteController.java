@@ -17,8 +17,8 @@ import java.util.UUID;
 @RequestMapping("/api/organizers")
 @RequiredArgsConstructor
 public class OrganizerEventWriteController {
-    @NonNull UserService userService;
-    @NonNull OrganizerEventService organizerEventService;
+    @NonNull  private final UserService userService;
+    @NonNull  private final OrganizerEventService organizerEventService;
 
     @GetMapping("/{userId}/event")
     String infoText(){
