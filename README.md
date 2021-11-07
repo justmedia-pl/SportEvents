@@ -9,6 +9,7 @@ It's easy to modify and add new features and additional data with DTO architectu
 Application runs on standard port of your server
 So use you valid {url_addres} for http calls for example: http://localhost:8080/
 
+see more on wiki page https://github.com/justmedia-pl/SportEvents/wiki
 ###VIEW
 ####Player
 If you want to list all players use
