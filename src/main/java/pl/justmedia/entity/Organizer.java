@@ -21,8 +21,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Organizer extends User {
     private String organizerName;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "organizer", orphanRemoval = true, fetch = FetchType.EAGER)
-    @Fetch(value = FetchMode.SUBSELECT)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "organizer", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Event> organizerEvents;
 
     public Organizer(String userPassword,

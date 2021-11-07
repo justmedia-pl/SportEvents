@@ -35,8 +35,7 @@ public class Player extends User {
     private String playerPhone;
 
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy="player",orphanRemoval = true, fetch = FetchType.EAGER)
-    @Fetch(value = FetchMode.SUBSELECT)
+    @OneToMany(cascade = CascadeType.ALL,mappedBy="player",orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Subscription> playerSubscriptions;
 
     public Player(String userPassword,

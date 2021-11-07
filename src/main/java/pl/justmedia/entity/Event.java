@@ -30,7 +30,7 @@ public class Event {
     private LocalDateTime eventDate;
     private int eventPlayerLimit;
     private double eventFee;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "event", orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "event", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Subscription> eventSubscriptions;
     @ManyToOne()
     @JoinColumn(name = "events_id", nullable = false)
