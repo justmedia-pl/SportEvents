@@ -4,6 +4,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.justmedia.service.PlayerSubscriptionService;
 import pl.justmedia.service.UserService;
@@ -18,8 +19,8 @@ import java.util.UUID;
 @RequestMapping("/api/players")
 @RequiredArgsConstructor
 public class PlayerSubscriptionWriteController {
-    @NonNull UserService userService;
-    @NonNull PlayerSubscriptionService playerSubscriptionService;
+    @NonNull  private final UserService userService;
+    @NonNull  private final  PlayerSubscriptionService playerSubscriptionService;
 
     @PostMapping("/{userId}/subscriptions")
     ResponseEntity<RegisteredSubscriptionId> registerSubscription(@RequestBody RegisterSubscriptionForm form, @PathVariable UUID userId){

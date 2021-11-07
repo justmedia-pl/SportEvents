@@ -8,7 +8,6 @@ import java.util.UUID;
 
 @Value
 public class RegisterEventForm {
-    @NonNull
     UUID userId;
     @NonNull
     String eventTitle;

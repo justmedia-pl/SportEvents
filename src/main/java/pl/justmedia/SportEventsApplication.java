@@ -7,6 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
+import org.springframework.transaction.annotation.Transactional;
+import pl.justmedia.entity.User;
 import pl.justmedia.entity.repositories.EventsRepository;
 import pl.justmedia.entity.repositories.UserRepository;
 import pl.justmedia.service.OrganizerEventService;
@@ -18,6 +20,7 @@ import pl.justmedia.service.dto.RegisterPlayerForm;
 import pl.justmedia.service.dto.RegisterSubscriptionForm;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 @SpringBootApplication
 public class SportEventsApplication extends SpringBootServletInitializer {
@@ -39,13 +42,31 @@ public class SportEventsApplication extends SpringBootServletInitializer {
         }
 
         @Bean
+        InitializingBean adminData() {
+            return () -> {
+                final var admin = new RegisterOrganizerForm("admin",
+                        "admin",
+                        "admin@admin.com",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "SportEvent"
+                );
+                final var registeredOrganizerId = service.registerOrganizer(admin);
+                service.updateUserRoles(registeredOrganizerId.getUserId(),"ROLE_ADMIN");
+
+            };
+        }
+
+        @Bean
         @Profile("dev")
-        InitializingBean sendDatabase() {
+        InitializingBean sampleData() {
             return () -> {
                 // INITIALIZE
 
                 final var user1 = new RegisterPlayerForm("123",
-                        "player1",
+                        "player",
                         "player@player.com",
                         "PlayerCity",
                         "PlayerStreet",
@@ -82,11 +103,13 @@ public class SportEventsApplication extends SpringBootServletInitializer {
                         new RegisterSubscriptionForm(
                                 registeredUserId.getUserId(),
                                 true,
-                                LocalDateTime.now(),
+                                LocalDateTime.now().toString(),
                                 true,
                                registeredEventId.getEventId()
                         ));
-
+                User user = userRepository.getOrganizerByUserId(registeredOrganizerId.getUserId());
+                user.setUserRoles(Arrays.asList("ROLE_ADMIN","ROLE_USER"));
+                userRepository.save(user);
               /*playerSubscriptionService.removeSubscription(new RemoveSubscriptionForm(
                       registeredUserId.getUserId(),
                       eventsRepository.getById(registeredEventId.getEventId())

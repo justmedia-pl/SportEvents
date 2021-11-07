@@ -99,5 +99,5 @@ public class OrganizerEventService {
         }
         return new DeletedEventId(userId,removedEvent);
     }
-
+    //TODO write UPDATEEVENT - after update send email / notification for subscribers
 }

@@ -2,8 +2,10 @@ package pl.justmedia.controller;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.justmedia.service.OrganizerEventService;
 import pl.justmedia.service.UserService;
@@ -15,8 +17,13 @@ import java.util.UUID;
 @RequestMapping("/api/organizers")
 @RequiredArgsConstructor
 public class OrganizerEventWriteController {
-    @NonNull UserService userService;
-    @NonNull OrganizerEventService organizerEventService;
+    @NonNull  private final UserService userService;
+    @NonNull  private final OrganizerEventService organizerEventService;
+
+    @GetMapping("/{userId}/event")
+    String infoText(){
+        return "AddEvent";
+    }
 
     @PostMapping("/{userId}/event")
     ResponseEntity<RegisteredEventId> registerEvent(@RequestBody RegisterEventForm form, @PathVariable UUID userId){

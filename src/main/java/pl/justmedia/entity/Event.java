@@ -2,6 +2,8 @@ package pl.justmedia.entity;
 
 import com.sun.istack.NotNull;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 import pl.justmedia.service.dto.EventDetails;
 import pl.justmedia.service.dto.EventView;
 import pl.justmedia.service.exception.SubscriptionException;
@@ -22,12 +24,13 @@ import java.util.stream.Collectors;
 @EqualsAndHashCode
 public class Event {
     @Id
+    @Type(type="uuid-char")
     private UUID eventId;
     private String eventTitle;
     private LocalDateTime eventDate;
     private int eventPlayerLimit;
     private double eventFee;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "event", orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "event", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Subscription> eventSubscriptions;
     @ManyToOne()
     @JoinColumn(name = "events_id", nullable = false)

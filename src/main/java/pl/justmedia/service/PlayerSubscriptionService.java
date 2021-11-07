@@ -28,7 +28,7 @@ public class PlayerSubscriptionService {
     EventsRepository eventsRepository;
     @NonNull
     SubscriptionRepository subscriptionRepository;
-
+    //TODO ADD ADMIN CHANGE SUBSCRP DATE
     public RegisteredSubscriptionId addSubscription(@NonNull RegisterSubscriptionForm form){
 
         if (!(userRepository.getUserType(form.getUserId()).equals(UserType.PLAYER))) {

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import pl.justmedia.service.exception.BusinessServiceException;
+import pl.justmedia.service.exception.EventException;
 import pl.justmedia.service.exception.UserNotExistException;
 
 import java.time.Instant;
@@ -22,6 +23,12 @@ final class RestControllerExceptionHandler extends ResponseEntityExceptionHandle
 
     @ExceptionHandler(UserNotExistException.class)
     ResponseEntity<ErrorMessage> handleException(UserNotExistException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND) // -> status code = 404
+                .body(new ErrorMessage(ex.getMessage(), Instant.now()));
+    }
+
+    @ExceptionHandler(EventException.class)
+    ResponseEntity<ErrorMessage> handleException(EventException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND) // -> status code = 404
                 .body(new ErrorMessage(ex.getMessage(), Instant.now()));
     }
