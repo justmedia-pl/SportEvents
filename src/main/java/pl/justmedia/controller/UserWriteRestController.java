@@ -6,8 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import pl.justmedia.service.OrganizerEventService;
-import pl.justmedia.service.UserMainteneceService;
+import pl.justmedia.service.UserMaintenanceService;
 import pl.justmedia.service.UserService;
 import pl.justmedia.service.dto.*;
 
@@ -18,8 +17,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserWriteRestController {
     @NonNull private final UserService userService;
-    @NonNull private final UserMainteneceService userMainteneceService;
+    @NonNull private final UserMaintenanceService userMaintenanceService;
     //TODO check patch mapping OR DO WITH PUT FOR ACTIVATE / DEACTIVATE USERS
+    /* User Registration */
+
 
     @PostMapping("/players")
     //@PreAuthorize("hasRole('ADMIN')")

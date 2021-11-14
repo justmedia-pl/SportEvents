@@ -2,6 +2,8 @@ package pl.justmedia.service;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.justmedia.entity.Organizer;
@@ -44,6 +46,7 @@ public class UserService {
         userRepository.save(player);
         return new RegisteredUserId(player.getUserId());
     }
+
 
     public RegisteredUserId updatePlayer(@NonNull RegisterPlayerForm form, UUID userId) {
         if (userRepository.emailExists(form.getUserEmail(),userId) || userRepository.loginExists(form.getUserLogin(),userId)) {

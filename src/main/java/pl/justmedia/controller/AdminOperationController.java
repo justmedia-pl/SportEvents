@@ -2,7 +2,6 @@ package pl.justmedia.controller;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +24,7 @@ public class AdminOperationController {
     @NonNull
     private final OrganizerEventService organizerEventService;
     @NonNull
-    private final UserMainteneceService userMainteneceService;
+    private final UserMaintenanceService userMaintenanceService;
     @NonNull
     private final EventQuery eventQuery;
 
@@ -42,13 +41,13 @@ public class AdminOperationController {
     ResponseEntity<MaintenanceUserId> deactivateUser(@PathVariable UUID userId) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(userMainteneceService.deactivateUser(userId));
+                .body(userMaintenanceService.deactivateUser(userId));
     }
 
     @PostMapping("/users/activate/{userId}")
     ResponseEntity<MaintenanceUserId> activateUser(@PathVariable UUID userId) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(userMainteneceService.activateUser(userId));
+                .body(userMaintenanceService.activateUser(userId));
     }
 }

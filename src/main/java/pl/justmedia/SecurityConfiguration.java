@@ -34,7 +34,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http./*sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
+
+        http.cors().and()./*sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
                 and().*/
                 authorizeRequests()
                 .antMatchers("/api/players/{userId}/**")
@@ -45,6 +46,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/organizers/**").hasAnyRole("ADMIN")
                 .antMatchers("/api/admin/**").hasAnyRole("ADMIN")
                 .antMatchers("/api/events/**").permitAll()
+                .antMatchers("/api/register/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .and()
                 .formLogin()
@@ -54,8 +56,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logout()
                 .permitAll()
                 .and().httpBasic() //TODO DISABLE FOR PRODUCTION - POSTMAN
-                .and()
-                .csrf().disable(); //TODO DISABLE FOR PRODUCTION - POSTMAN
+                .and().headers().frameOptions().disable()
+                .and().csrf().disable(); //TODO DISABLE FOR PRODUCTION - POSTMAN
+
     }
 
     @Bean

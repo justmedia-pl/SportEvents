@@ -13,7 +13,7 @@ import java.util.UUID;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class UserMainteneceService {
+public class UserMaintenanceService {
     @NonNull
     private final UserRepository userRepository;
 

@@ -13,6 +13,7 @@ import pl.justmedia.entity.repositories.EventsRepository;
 import pl.justmedia.entity.repositories.UserRepository;
 import pl.justmedia.service.OrganizerEventService;
 import pl.justmedia.service.PlayerSubscriptionService;
+import pl.justmedia.service.UserMaintenanceService;
 import pl.justmedia.service.UserService;
 import pl.justmedia.service.dto.RegisterEventForm;
 import pl.justmedia.service.dto.RegisterOrganizerForm;
@@ -27,6 +28,8 @@ public class SportEventsApplication extends SpringBootServletInitializer {
 
     @Autowired
     private UserService service;
+    @Autowired
+    private UserMaintenanceService userMaintenanceService;
     @Autowired
     EventsRepository eventsRepository;
     @Autowired
@@ -54,6 +57,7 @@ public class SportEventsApplication extends SpringBootServletInitializer {
                         "SportEvent"
                 );
                 final var registeredOrganizerId = service.registerOrganizer(admin);
+                userMaintenanceService.activateUser(registeredOrganizerId.getUserId());
                 service.updateUserRoles(registeredOrganizerId.getUserId(),"ROLE_ADMIN");
 
             };
