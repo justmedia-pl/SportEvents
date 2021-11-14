@@ -53,7 +53,7 @@ public abstract class User {
         this.userStreet = userStreet;
         this.userCountry = userCountry;
         this.userZipCode = userZipCode;
-        this.userActive = true;
+        this.userActive = false;
         this.userRoles = new ArrayList<>(Arrays.asList("ROLE_USER"));
     }
 
