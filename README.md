@@ -15,6 +15,31 @@ see more on wiki page https://github.com/justmedia-pl/SportEvents/wiki
 
 ***And if you want IT ON THE DOCKER - take a look on Packages :)***
 
+## Sample requests without authorization
+### GET
+http://localhost:8080/api/events - returns event list
+http://localhost:8080/api/events/{eventId} - returns event details
+### POST
+http://localhost:8080/api/register/
+
+***Sample post JSON/body***
+
+{
+"userPassword":"userPassword",
+"userLogin":"testOrganizer",
+"userEmail": "organizer{{$randomInt}}@player.com",
+"userCity": "City",
+"userStreet": "Street",
+"userCountry": "Country",
+"userZipCode": "00000",
+"organizerName":"Organizer Sample"
+}
+
+Response after post will be (mail or java console link with registration token to activate account)
+
+### For more samples ###
+Check postman collection attached to this project.
+
 ## Future
 In the next releases there will be some new methods and integrations with google and some payments gateways.
 The web interface will be also available (Thymeleaf or React).
