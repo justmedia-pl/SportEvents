@@ -13,7 +13,7 @@ import pl.justmedia.service.dto.PlayerView;
 
 import java.util.List;
 import java.util.UUID;
-
+@CrossOrigin
 @RestController
 @RequestMapping(value="/api/events",produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
@@ -21,7 +21,7 @@ public class EventViewRestController {
 
         @NonNull
         private final EventQuery query;
-        @CrossOrigin
+
         @GetMapping
             // default mapping
         List<EventView> getEvents() {

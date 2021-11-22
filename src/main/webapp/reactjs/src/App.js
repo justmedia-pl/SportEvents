@@ -19,11 +19,12 @@ function App() {
             <Container>
 
                 <Row>
-                    <Col lg={12} className={"margin-top"}>
+                    <Col lg={12} className={"margin-top margin-bottom"}>
                         <Routes>
                             <Route path="/" element={<Welcome/>}/>
                             <Route path="/events" element={<EventsList/>}/>
-                            <Route path="/registerplayer" element={<RegisterPlayer/>}/>
+                            <Route path="/register/player" element={<RegisterPlayer/>}/>
+                            <Route path="/register/organizer" element={<RegisterPlayer/>}/>
                             <Route path="/login" element={<Login/>}/>
                         </Routes>
                     </Col>

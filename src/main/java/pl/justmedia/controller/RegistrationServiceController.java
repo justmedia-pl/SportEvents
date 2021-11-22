@@ -12,7 +12,7 @@ import pl.justmedia.service.dto.RegisterPlayerForm;
 import pl.justmedia.service.dto.RegisteredUserId;
 
 import java.util.UUID;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -28,6 +28,7 @@ public class RegistrationServiceController {
                 .status(HttpStatus.CREATED)
                 .body(userRegisterService.registerPlayerWithEmailConfirmation(form));
     }
+
     @PostMapping("/register/organizer")
     ResponseEntity<RegisteredUserId> registerUser(@RequestBody RegisterOrganizerForm form) {
         return ResponseEntity
