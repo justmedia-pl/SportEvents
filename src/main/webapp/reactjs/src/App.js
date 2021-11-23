@@ -8,6 +8,7 @@ import Footer from "./components/Footer";
 import EventsList from "./components/EventsList";
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import RegisterPlayer from "./components/RegisterPlayer";
+import RegisterOrganizer from "./components/RegisterOraganizer";
 import Login from "./components/Login";
 
 
@@ -24,7 +25,7 @@ function App() {
                             <Route path="/" element={<Welcome/>}/>
                             <Route path="/events" element={<EventsList/>}/>
                             <Route path="/register/player" element={<RegisterPlayer/>}/>
-                            <Route path="/register/organizer" element={<RegisterPlayer/>}/>
+                            <Route path="/register/organizer" element={<RegisterOrganizer/>}/>
                             <Route path="/login" element={<Login/>}/>
                         </Routes>
                     </Col>

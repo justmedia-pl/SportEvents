@@ -43,9 +43,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.cors().and()./*sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
+        http.cors().and()
+                /*sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
                 and().*/
-                authorizeRequests()
+                .authorizeRequests()
                 .antMatchers("/api/players/{userId}/**")
                 .access("@userSecurity.hasUserId(authentication,#userId) or hasRole('ADMIN')")
                 .antMatchers("/api/players/**").hasAnyRole("ADMIN")

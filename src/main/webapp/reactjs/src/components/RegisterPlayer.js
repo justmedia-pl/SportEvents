@@ -1,4 +1,4 @@
-import React from "react";
+import React, {createRef} from "react";
 import {Button, Card, Col, Form, Row, Tab, Tabs, Toast} from "react-bootstrap";
 import {faCoffee, faSave, faPlusSquare, faUndo} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -18,6 +18,7 @@ export default class RegisterPlayer extends React.Component {
         this.state.show = false;
         this.submitPlayer = this.submitPlayer.bind(this);
         this.playerChange = this.playerChange.bind(this);
+        this.captcha = createRef();
     }
 
     componentDidMount() {
@@ -26,7 +27,8 @@ export default class RegisterPlayer extends React.Component {
 
     submitPlayer = (event) => {
         event.preventDefault();
-        let user_captcha_value = document.getElementById('user_captcha_input').value;
+        //let user_captcha_value = document.getElementById('user_captcha_input').value;
+        let user_captcha_value = this.captcha.current.value;
         if (validateCaptcha(user_captcha_value, true) == true) {
             const player = {
                 userEmail: this.state.userEmail,
@@ -47,7 +49,6 @@ export default class RegisterPlayer extends React.Component {
             }
             axios.post("http://localhost:8080/api/register/player", player)
                 .then(response => {
-                    alert(response.request);
                     if (response.data != null) {
                         this.setState({"show":true})
                         setTimeout(()=>this.setState({"show":false}),3000)
@@ -56,8 +57,10 @@ export default class RegisterPlayer extends React.Component {
                     }
                 });
             this.setState(this.initialState);
+            this.captcha.current.value = '';
         } else {
             alert('Captcha Does Not Match');
+            this.captcha.current.value = '';
         }
     }
 
@@ -87,6 +90,7 @@ export default class RegisterPlayer extends React.Component {
     }
 
     render() {
+
         const {
             userEmail,
             userLogin,
@@ -290,11 +294,10 @@ export default class RegisterPlayer extends React.Component {
                                     <LoadCanvasTemplate reloadText="Reload My Captcha" reloadColor="white"/>
                                     <Form.Control required name="user_captcha_input"
                                                   controlId="user_captcha_input"
-
-
                                                   className={"bg-dark text-white border-gray"}
                                                   type="text"
                                                   placeholder="Enter Captcha Value"
+                                                  ref={this.captcha}
                                     /></Col>
                             </Form.Group>
 
