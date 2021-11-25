@@ -46,6 +46,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.cors().and()
                 /*sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
                 and().*/
+                .formLogin()
+                .successHandler(successHandler)
+                .permitAll()
+                .and()
+                .logout()
+                .permitAll()
+                .and()
                 .authorizeRequests()
                 .antMatchers("/api/players/{userId}/**")
                 .access("@userSecurity.hasUserId(authentication,#userId) or hasRole('ADMIN')")
@@ -55,15 +62,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/organizers/**").hasAnyRole("ADMIN")
                 .antMatchers("/api/admin/**").hasAnyRole("ADMIN")
                 .antMatchers("/api/events/**").permitAll()
+                .antMatchers("/login/**").permitAll()
                 .antMatchers("/api/register/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
-                .and()
-                .formLogin()
-                .successHandler(successHandler)
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll()
+
                 .and().httpBasic() //TODO DISABLE FOR PRODUCTION - POSTMAN
                 .and().headers().frameOptions().disable()
                 .and().csrf().disable(); //TODO DISABLE FOR PRODUCTION - POSTMAN

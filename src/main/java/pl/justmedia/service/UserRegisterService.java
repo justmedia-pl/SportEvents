@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.justmedia.entity.ConfirmationToken;
 import pl.justmedia.entity.Player;
 import pl.justmedia.entity.User;
+import pl.justmedia.entity.langage.Language;
 import pl.justmedia.entity.repositories.ConfirmationTokenRepository;
 import pl.justmedia.entity.repositories.UserRepository;
 import pl.justmedia.service.dto.RegisterOrganizerForm;
@@ -33,7 +34,8 @@ public class UserRegisterService  {
     @Value("${email.from}")
     String emailFrom;
 
-
+    @Autowired
+    Language language;
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -87,7 +89,7 @@ public class UserRegisterService  {
             User user = userRepository.getById(token.getUser().getUserId());
             user.setUserActive(true);
             userRepository.save(user);
-            return new RegisteredUserId(user.getUserId());
+            return new RegisteredUserId(user.getUserId(),language.getMessage("empty"));
         } else {
             throw new TokenValidationException("Token not Valid !");
         }

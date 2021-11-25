@@ -115,13 +115,14 @@ class UserServiceTest {
 
         final var organizer1 = new RegisterOrganizerForm(
                 "organizer1",
-                "organizer1",
-                "organizer@organizer.com",
+                "organizer2",
+                "organizer1@organizer.com",
                 "OrganizerCity",
                 "OrganizerStreet",
                 "Poland",
                 "00000",
                 "OrganizerName");
+
         assertThrows(EmailAlreadyExistException.class,() -> userService.registerOrganizer(organizer1));
     }
 

@@ -16,6 +16,7 @@ export default class RegisterPlayer extends React.Component {
         super(props);
         this.state = this.initialState;
         this.state.show = false;
+        this.state.message = "";
         this.submitPlayer = this.submitPlayer.bind(this);
         this.playerChange = this.playerChange.bind(this);
         this.captcha = createRef();
@@ -50,11 +51,15 @@ export default class RegisterPlayer extends React.Component {
             axios.post("http://localhost:8080/api/register/player", player)
                 .then(response => {
                     if (response.data != null) {
-                        this.setState({"show":true})
-                        setTimeout(()=>this.setState({"show":false}),3000)
+                        this.setState({"show": true, "message": response.data.message, "messageType":"success"})
+                        setTimeout(() => this.setState({"show": false}), 3000)
                     } else {
-                        this.setState({"show":false})
+                        this.setState({"show": false})
                     }
+                })
+                .catch(error => {
+                    this.setState({"show": true, "message": error.response.status +" - "+ error.response.data.message, "messageType":"danger"})
+                    setTimeout(() => this.setState({"show": false}), 3000)
                 });
             this.setState(this.initialState);
             this.captcha.current.value = '';

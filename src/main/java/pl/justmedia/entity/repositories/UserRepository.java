@@ -31,9 +31,9 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Query("from User u where u.userType = pl.justmedia.entity.enums.UserType.ORGANIZER")
     List<Organizer> getAllOrganizers ();
     Player findPlayerByUserId(UUID userId);
-    @Query("select (count(u) > 0) from User u where upper(u.userEmail) = upper(?1) and u.userId <> (?2)")
+    @Query("select (count(u) > 0) from User u where upper(u.userEmail) = upper(?1)")
     boolean emailExists(String email, UUID userId);
-    @Query("select (count(u) > 0) from User u where upper(u.userLogin) = upper(?1) and u.userId <> (?2)")
+    @Query("select (count(u) > 0) from User u where upper(u.userLogin) = upper(?1)")
     boolean loginExists(String login, UUID userId);
     @Query("select p.playerSubscriptions from Player p where p.userEmail = ?1")
     List<Subscription> findSubscriptionsForUserEmail(String userEmail);
