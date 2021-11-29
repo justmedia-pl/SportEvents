@@ -12,6 +12,7 @@ import java.util.UUID;
 public class EventDetails {
     UUID eventId;
     UUID organizerId;
+    String organizerName;
     String Title;
     LocalDateTime eventDate;
     int eventPlayerLimit;

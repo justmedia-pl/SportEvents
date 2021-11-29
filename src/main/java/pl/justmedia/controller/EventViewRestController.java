@@ -21,14 +21,14 @@ public class EventViewRestController {
 
         @NonNull
         private final EventQuery query;
-
+    @CrossOrigin
         @GetMapping
             // default mapping
         List<EventView> getEvents() {
             return query.listEvents();
         }
-        @CrossOrigin
-        @GetMapping(value="/{eventId}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin
+        @GetMapping(value="/{eventId}")
         EventDetails getEvent(@PathVariable UUID eventId){
             return query.getEventDetails(eventId);
         }

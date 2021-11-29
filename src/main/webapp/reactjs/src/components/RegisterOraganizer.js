@@ -1,6 +1,6 @@
 import React, {createRef} from "react";
 import {Button, Card, Col, Form, Row, Tab, Tabs, Toast} from "react-bootstrap";
-import {faCoffee, faSave, faPlusSquare, faUndo} from '@fortawesome/free-solid-svg-icons'
+import {faCoffee, faSave, faPlusSquare, faUndo, faUserPlus} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import {
@@ -103,7 +103,7 @@ export default class RegisterOrganizer extends React.Component {
                 </div>
 
                 <Card className={"border border-dark bg-dark text-white"}>
-                    <Card.Header><FontAwesomeIcon icon={faPlusSquare}/> Register Organizer</Card.Header>
+                    <Card.Header><FontAwesomeIcon icon={faUserPlus}/> Register Organizer</Card.Header>
                     <Card.Body>
 
                         <Form onReset={this.resetOrganizer} onSubmit={this.submitOrganizer} id="registerOrganizerId">

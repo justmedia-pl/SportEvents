@@ -103,7 +103,7 @@ public class SportEventsApplication extends SpringBootServletInitializer {
                         "PlayerStreet",
                         "Poland",
                         "00000",
-                        "PlayerName"
+                        "Organizer"
                 );
                 final var registeredOrganizerId = service.registerOrganizer(user2);
                 final var registeredEventId = organizerEventService.addEvent(new RegisterEventForm(
@@ -116,7 +116,7 @@ public class SportEventsApplication extends SpringBootServletInitializer {
                 final var registeredSubscriptionId = playerSubscriptionService.addSubscription(
                         new RegisterSubscriptionForm(
                                 registeredUserId.getUserId(),
-                                true,
+                                false,
                                 LocalDateTime.now().toString(),
                                 true,
                                registeredEventId.getEventId()

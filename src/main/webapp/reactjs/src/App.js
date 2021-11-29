@@ -9,7 +9,10 @@ import EventsList from "./components/EventsList";
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import RegisterPlayer from "./components/RegisterPlayer";
 import RegisterOrganizer from "./components/RegisterOraganizer";
+import EventDetails from "./components/EventDetails";
 import Login from "./components/Login";
+import Players from "./components/Players";
+import Organizers from "./components/Organizers";
 
 
 
@@ -24,9 +27,14 @@ function App() {
                         <Routes>
                             <Route path="/" element={<Welcome/>}/>
                             <Route path="/events" element={<EventsList/>}/>
+                            <Route exact path="/events/:id" element={<EventDetails/>}/>
                             <Route path="/register/player" element={<RegisterPlayer/>}/>
                             <Route path="/register/organizer" element={<RegisterOrganizer/>}/>
                             <Route path="/login" element={<Login/>}/>
+                            <Route path="/players" element={<Players/>}/>
+                            <Route path="/players/:id" element={<Players/>}/>
+                            <Route path="/organizers" element={<Organizers/>}/>
+                            <Route path="/organizers/:id" element={<Organizers/>}/>
                         </Routes>
                     </Col>
                 </Row>

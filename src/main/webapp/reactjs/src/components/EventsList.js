@@ -1,8 +1,9 @@
 import React,{Component} from "react";
 import {Card, Button, Table} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+import {faCoffee, faList} from '@fortawesome/free-solid-svg-icons'
 import axios from "axios";
+import {Link} from "react-router-dom";
 
 export default class EventsList extends React.Component {
     constructor(props) {
@@ -23,7 +24,7 @@ export default class EventsList extends React.Component {
     render() {
         return(
         <Card className={"border border-dark bg-dark text-white"}>
-            <Card.Header><FontAwesomeIcon icon={faCoffee} /> Events</Card.Header>
+            <Card.Header><FontAwesomeIcon icon={faList} /> Events</Card.Header>
             <Card.Body>
                 <Table bordered hover striped variant="dark">
                     <thead>
@@ -48,7 +49,9 @@ export default class EventsList extends React.Component {
                                 <td>Org name</td>
                                 <td>  {eventDetails.eventFee === 0 ? "Free" : eventDetails.eventFee}</td>
                                 <td>{eventDetails.subscriptionsCount}</td>
-                                <td>No events available</td>
+                                <td><Link to={"/events/"+eventDetails.eventId}>
+                                    <Button variant="success" className={"btn-success"}>Show details</Button>
+                                </Link></td>
                             </tr>
                         ))
 
