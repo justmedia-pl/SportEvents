@@ -10,4 +10,5 @@ public class RegisteredUserId {
 
     @NonNull
     UUID userId;
+    String message;
 }

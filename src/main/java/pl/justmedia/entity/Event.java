@@ -84,6 +84,7 @@ public class Event {
     public EventDetails viewDetail() {
         return new EventDetails(getEventId(),
                 getOrganizer().getUserId(),
+                getOrganizer().getOrganizerName(),
                 getEventTitle(),
                 getEventDate(),
                 getEventPlayerLimit(),

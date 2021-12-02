@@ -2,6 +2,7 @@ package pl.justmedia;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -9,10 +10,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.transaction.annotation.Transactional;
 import pl.justmedia.entity.User;
+import pl.justmedia.entity.langage.Language;
 import pl.justmedia.entity.repositories.EventsRepository;
 import pl.justmedia.entity.repositories.UserRepository;
 import pl.justmedia.service.OrganizerEventService;
 import pl.justmedia.service.PlayerSubscriptionService;
+import pl.justmedia.service.UserMaintenanceService;
 import pl.justmedia.service.UserService;
 import pl.justmedia.service.dto.RegisterEventForm;
 import pl.justmedia.service.dto.RegisterOrganizerForm;
@@ -25,14 +28,22 @@ import java.util.Arrays;
 @SpringBootApplication
 public class SportEventsApplication extends SpringBootServletInitializer {
 
+
+
     @Autowired
     private UserService service;
+
+    @Autowired
+    private UserMaintenanceService userMaintenanceService;
     @Autowired
     EventsRepository eventsRepository;
     @Autowired
     OrganizerEventService organizerEventService;
     @Autowired
     PlayerSubscriptionService playerSubscriptionService;
+
+    @Value("${app.language}")
+    String languageFile;
 
     @Autowired
     UserRepository userRepository;
@@ -54,7 +65,10 @@ public class SportEventsApplication extends SpringBootServletInitializer {
                         "SportEvent"
                 );
                 final var registeredOrganizerId = service.registerOrganizer(admin);
+                userMaintenanceService.activateUser(registeredOrganizerId.getUserId());
                 service.updateUserRoles(registeredOrganizerId.getUserId(),"ROLE_ADMIN");
+                Language language = Language.getInstance();
+                language.setMessages(languageFile);
 
             };
         }
@@ -89,7 +103,7 @@ public class SportEventsApplication extends SpringBootServletInitializer {
                         "PlayerStreet",
                         "Poland",
                         "00000",
-                        "PlayerName"
+                        "Organizer"
                 );
                 final var registeredOrganizerId = service.registerOrganizer(user2);
                 final var registeredEventId = organizerEventService.addEvent(new RegisterEventForm(
@@ -102,7 +116,7 @@ public class SportEventsApplication extends SpringBootServletInitializer {
                 final var registeredSubscriptionId = playerSubscriptionService.addSubscription(
                         new RegisterSubscriptionForm(
                                 registeredUserId.getUserId(),
-                                true,
+                                false,
                                 LocalDateTime.now().toString(),
                                 true,
                                registeredEventId.getEventId()

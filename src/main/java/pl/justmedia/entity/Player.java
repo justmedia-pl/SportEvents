@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import pl.justmedia.service.dto.PlayerDetails;
-import pl.justmedia.service.dto.PlayerView;
-import pl.justmedia.service.dto.RegisterOrganizerForm;
-import pl.justmedia.service.dto.RegisterPlayerForm;
+import pl.justmedia.service.dto.*;
 import pl.justmedia.service.exception.SubscriptionException;
 
 import javax.persistence.*;
@@ -177,6 +174,25 @@ public class Player extends User {
                 getUserCountry(),
                 getUserZipCode(),
                 getPlayerSubscriptions().stream().map(Subscription::toView).collect(Collectors.toList()),
+                getPlayerFirstName(),
+                getPlayerLastName(),
+                getPlayerDOB().toString(),
+                getPlayerTeamName(),
+                String.valueOf(getPlayerWeight()),
+                getPlayerAdditionalInfo(),
+                getPlayerLicence(),
+                getPlayerPhone());
+    }
+
+    public RegisterPlayerForm getPlayerForEdit(){
+        return new RegisterPlayerForm(
+                getUserPassword(),
+                getUserLogin(),
+                getUserEmail(),
+                getUserCity(),
+                getUserStreet(),
+                getUserCountry(),
+                getUserZipCode(),
                 getPlayerFirstName(),
                 getPlayerLastName(),
                 getPlayerDOB().toString(),

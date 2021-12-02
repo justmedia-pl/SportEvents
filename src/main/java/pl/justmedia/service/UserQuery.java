@@ -38,6 +38,13 @@ public class UserQuery {
         return userRepository.findPlayerByUserId(userId).viewDetail();
     }
 
+    public RegisterPlayerForm getPlayerForEdit(UUID userId){
+        return userRepository.findPlayerByUserId(userId).getPlayerForEdit();
+    }
+
+    public RegisterOrganizerForm getOrganizerForEdit(UUID userId){
+        return userRepository.findOrganizerByUserId(userId).getOrganizerForEdit();
+    }
     public List<OrganizerView> listOrganizers(){
         List<OrganizerView> collect = userRepository.getAllOrganizers().stream()
                 .filter(organizer -> organizer.getUserType().equals(UserType.ORGANIZER))

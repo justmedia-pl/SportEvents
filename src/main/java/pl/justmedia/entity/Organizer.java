@@ -121,4 +121,17 @@ public class Organizer extends User {
                 getOrganizerEvents().stream().map(Event::toView).collect(Collectors.toList())
         );
     }
+
+    public RegisterOrganizerForm getOrganizerForEdit() {
+        return new RegisterOrganizerForm(
+                getUserPassword(),
+               getUserLogin(),
+                getUserEmail(),
+                getUserCity(),
+                getUserStreet(),
+                getUserCountry(),
+                getUserZipCode(),
+                getOrganizerName()
+        );
+    }
 }

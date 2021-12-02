@@ -2,11 +2,15 @@ package pl.justmedia.service;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.justmedia.entity.Organizer;
 import pl.justmedia.entity.Player;
 import pl.justmedia.entity.User;
+import pl.justmedia.entity.langage.Language;
 import pl.justmedia.entity.repositories.UserRepository;
 import pl.justmedia.service.dto.RegisterOrganizerForm;
 import pl.justmedia.service.dto.RegisterPlayerForm;
@@ -25,13 +29,16 @@ public class UserService {
     @NonNull
     private final UserRepository userRepository;
 
+
+    Language language = Language.getInstance();
+
     public RegisteredUserId updateUserRoles(UUID userId, String userRoles) throws UserNotExistException {
         User user = userRepository.getById(userId);
         if (user != null) {
             List<String> roles = List.of(userRoles.split(","));
             user.setUserRoles(roles);
             //userRepository.save(user);
-            return new RegisteredUserId(user.getUserId());
+            return new RegisteredUserId(user.getUserId(),language.getMessage("msgRegisterSuccess"));
         } else {
             throw new UserNotExistException("User not exists !");
         }
@@ -42,8 +49,9 @@ public class UserService {
         }
         Player player = Player.createWith(form);
         userRepository.save(player);
-        return new RegisteredUserId(player.getUserId());
+        return new RegisteredUserId(player.getUserId(),language.getMessage("msgRegisterSuccess"));
     }
+
 
     public RegisteredUserId updatePlayer(@NonNull RegisterPlayerForm form, UUID userId) {
         if (userRepository.emailExists(form.getUserEmail(),userId) || userRepository.loginExists(form.getUserLogin(),userId)) {
@@ -52,7 +60,7 @@ public class UserService {
         Player player = userRepository.getPlayerByUserId(userId);
         Player.updatePlayer(form, player);
         userRepository.save(player);
-        return new RegisteredUserId(player.getUserId());
+        return new RegisteredUserId(player.getUserId(),language.getMessage("msgRegisterSuccess"));
     }
 
     public RegisteredUserId registerOrganizer(@NonNull RegisterOrganizerForm form) throws EmailAlreadyExistException {
@@ -61,7 +69,8 @@ public class UserService {
         }
         Organizer organizer = Organizer.createWith(form);
         userRepository.save(organizer);
-        return new RegisteredUserId(organizer.getUserId());
+        System.out.println(language.getMessage("msgRegisterSuccess"));
+        return new RegisteredUserId(organizer.getUserId(),language.getMessage("msgRegisterSuccess"));
     }
 
     public RegisteredUserId updateOrganizer(@NonNull RegisterOrganizerForm form, UUID userId) {
@@ -71,7 +80,7 @@ public class UserService {
         Organizer organizer = userRepository.getOrganizerByUserId(userId);
         Organizer.updateOrganizer(form, organizer);
         userRepository.save(organizer);
-        return new RegisteredUserId(organizer.getUserId());
+        return new RegisteredUserId(organizer.getUserId(),language.getMessage("msgRegisterSuccess"));
     }
 
 }

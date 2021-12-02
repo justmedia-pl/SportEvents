@@ -13,7 +13,7 @@ import java.util.UUID;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class UserMainteneceService {
+public class UserMaintenanceService {
     @NonNull
     private final UserRepository userRepository;
 
@@ -27,6 +27,10 @@ public class UserMainteneceService {
         User user = userRepository.getById(userId);
         user.setUserActive(true);
         userRepository.save(user);
+        return new MaintenanceUserId(userId);
+    }
+    public MaintenanceUserId deleteUser(UUID userId){
+        userRepository.deleteByUserId(userId);
         return new MaintenanceUserId(userId);
     }
 }
