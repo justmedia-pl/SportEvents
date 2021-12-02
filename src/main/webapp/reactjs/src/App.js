@@ -13,6 +13,7 @@ import EventDetails from "./components/EventDetails";
 import Login from "./components/Login";
 import Players from "./components/Players";
 import Organizers from "./components/Organizers";
+import EditPlayer from "./components/EditPlayer";
 
 
 
@@ -29,6 +30,7 @@ function App() {
                             <Route path="/events" element={<EventsList/>}/>
                             <Route exact path="/events/:id" element={<EventDetails/>}/>
                             <Route path="/register/player" element={<RegisterPlayer/>}/>
+                            <Route path="/edit/player/:id" element={<EditPlayer/>}/>
                             <Route path="/register/organizer" element={<RegisterOrganizer/>}/>
                             <Route path="/login" element={<Login/>}/>
                             <Route path="/players" element={<Players/>}/>

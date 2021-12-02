@@ -29,4 +29,8 @@ public class UserMaintenanceService {
         userRepository.save(user);
         return new MaintenanceUserId(userId);
     }
+    public MaintenanceUserId deleteUser(UUID userId){
+        userRepository.deleteByUserId(userId);
+        return new MaintenanceUserId(userId);
+    }
 }

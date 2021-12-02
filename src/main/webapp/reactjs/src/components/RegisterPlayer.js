@@ -1,6 +1,6 @@
 import React, {createRef} from "react";
 import {Button, Card, Col, Form, Row, Tab, Tabs, Toast} from "react-bootstrap";
-import {faCoffee, faSave, faPlusSquare, faUndo, faUserPlus} from '@fortawesome/free-solid-svg-icons'
+import {faCoffee, faSave, faPlusSquare, faUndo, faUserPlus, faList} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import {
@@ -312,7 +312,8 @@ export default class RegisterPlayer extends React.Component {
                             </Button>{' '}
                             <Button variant="info" type="reset" className="text-white">
                                 <FontAwesomeIcon icon={faUndo}/> Reset
-                            </Button>
+                            </Button>{' '}
+
                         </Form>
 
                     </Card.Body>
