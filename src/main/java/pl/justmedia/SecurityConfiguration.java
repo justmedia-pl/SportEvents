@@ -60,7 +60,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/organizers/{userId}/**")
                 .access("@userSecurity.hasUserId(authentication,#userId) or hasRole('ADMIN')")
                 .antMatchers("/api/organizers/**").hasAnyRole("ADMIN")
-                .antMatchers("/api/admin/**").hasAnyRole("ADMIN")
+                .antMatchers("/api/users/**").hasAnyRole("ADMIN")
                 .antMatchers("/api/users/edit/player/{userId}")
                 .access("@userSecurity.hasUserId(authentication,#userId) or hasRole('ADMIN')")
                 .antMatchers("/api/users/edit/organizer/{userId}")

@@ -7,7 +7,7 @@ import java.util.UUID;
 @Value
 public class OrganizerView {
     UUID userId;
-    String name;
+    String organizerName;
     String email;
     UserType type;
     int eventsCount;

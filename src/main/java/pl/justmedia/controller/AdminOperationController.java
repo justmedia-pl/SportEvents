@@ -45,12 +45,20 @@ public class AdminOperationController {
         return userQuery.getPlayerForEdit(userId);
     }
     @CrossOrigin
-    @PostMapping("users/edit/player/{userId}")
+    @PostMapping("/users/edit/player/{userId}")
         //@PreAuthorize("hasRole('ADMIN')")
         ResponseEntity<RegisteredUserId> updatePlayer(@RequestBody RegisterPlayerForm form, @PathVariable UUID userId) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(userService.updatePlayer(form,userId));
+    }
+    @CrossOrigin
+    @PostMapping("/users/edit/organizer/{userId}")
+        //@PreAuthorize("hasRole('ADMIN')")
+    ResponseEntity<RegisteredUserId> updateOrgnaizer(@RequestBody RegisterOrganizerForm form, @PathVariable UUID userId) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(userService.updateOrganizer(form,userId));
     }
     @CrossOrigin
     @GetMapping(value="/users/edit/organizer/{userId}",produces = MediaType.APPLICATION_JSON_VALUE)

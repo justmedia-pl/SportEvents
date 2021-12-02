@@ -32,7 +32,15 @@ function EventsDetails () {
     }
         return (
             <Card className={"border border-dark bg-dark text-white"}>
-                <Card.Header><FontAwesomeIcon icon={faTrophy} /> {eventDetails.title}</Card.Header>
+                <Card.Header><FontAwesomeIcon icon={faTrophy} /> {eventDetails.title}
+                    <div className={"fa-pull-right"}>
+                        <Link to={"/events/"}>
+                            <Button  size="sm" type="reset"  variant="outline-info">
+                                <FontAwesomeIcon icon={faList}/> Back to list
+                            </Button>
+                        </Link>
+                    </div>
+                    </Card.Header>
                 <Card.Body>
                     <Card.Text>
                         <p>Event organizer: {eventDetails.organizerName}</p>
@@ -40,9 +48,7 @@ function EventsDetails () {
                             {convertTextToDateTime(eventDetails.eventDate)}  </p>
                         <p>Player limit: {eventDetails.eventPlayerLimit}</p>
                         <p>Event fee: {eventDetails.eventFee}</p>
-                        <Link to={"/events/"}>
-                            <Button  className={"btn-info"}><FontAwesomeIcon icon={faList} /> Back to events</Button>
-                        </Link>
+
                     </Card.Text>
                     <Table bordered hover striped variant="dark">
                         <thead>

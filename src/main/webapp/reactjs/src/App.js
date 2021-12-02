@@ -14,6 +14,7 @@ import Login from "./components/Login";
 import Players from "./components/Players";
 import Organizers from "./components/Organizers";
 import EditPlayer from "./components/EditPlayer";
+import EditOrganizer from "./components/EditOrganizer";
 
 
 
@@ -32,6 +33,7 @@ function App() {
                             <Route path="/register/player" element={<RegisterPlayer/>}/>
                             <Route path="/edit/player/:id" element={<EditPlayer/>}/>
                             <Route path="/register/organizer" element={<RegisterOrganizer/>}/>
+                            <Route path="/edit/organizer/:id" element={<EditOrganizer/>}/>
                             <Route path="/login" element={<Login/>}/>
                             <Route path="/players" element={<Players/>}/>
                             <Route path="/players/:id" element={<Players/>}/>

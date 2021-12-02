@@ -6,9 +6,9 @@ import axios from "axios";
 import MyToast from "./MyToast";
 import {useNavigate, useParams} from "react-router-dom";
 
-function EditPlayer() {
-    submitPlayer = submitPlayer.bind(this);
-    playerChange = playerChange.bind(this);
+function EditOrganizer() {
+    submitOrganizer = submitOrganizer.bind(this);
+    organizerChange = organizerChange.bind(this);
     let {id} = useParams();
     const navigate = useNavigate();
     const [inputClasses,setClasses] = useState('');
@@ -18,22 +18,15 @@ function EditPlayer() {
     const [isShow, setShow] = useState(false);
     const [messageType, setMessageType] = useState('');
     const [message, setMessage] = useState('');
-    const [playerDetails, setPlayerDetails] = useState({
+    const [organizerDetails, setOrganizerDetails] = useState({
         userEmail: '',
         userLogin: '',
         userPassword: '',
-        playerFirstName: '',
-        playerLastName: '',
-        playerDOB: '',
-        playerTeamName: '',
-        playerWeight: '',
-        playerLicence: '',
-        playerPhone: '',
-        playerAdditionalInfo: '',
         userCity: '',
         userCountry: '',
         userStreet: '',
-        userZipCode: ''
+        userZipCode: '',
+        organizerName:''
     });
     function changeInput(isDisabled){
         let inputClasses;
@@ -47,33 +40,33 @@ function EditPlayer() {
                 'text-white':true,
                 'border-gray':true})
     }
-    function playerChange(event) {
+    function organizerChange(event) {
         const value = event.target.value;
-        setPlayerDetails({
-            ...playerDetails,
+        setOrganizerDetails({
+            ...organizerDetails,
             [event.target.name]: value
         });
     }
 
-    function resetPlayer() {
-        getPlayerDetails()
+    function resetOrganizer() {
+        getOrganizerDetails()
     }
     function goback()  {
-    navigate('/players')
+    navigate('/organizers')
     }
 
-    function getPlayerDetails() {
+    function getOrganizerDetails() {
         const auth = {
             username: 'admin',
             password: 'admin'
         }
-        axios.get("http://localhost:8080/api/users/edit/player/" + id, {auth})
+        axios.get("http://localhost:8080/api/users/edit/organizer/" + id, {auth})
             .then(response => response.data)
             .then((data) => {
-                setPlayerDetails(data);
+                setOrganizerDetails(data);
                 setLoading(false);
                 setLoaded(true);
-                console.log(playerDetails);
+                console.log(organizerDetails);
             })
             .catch(error => {
                 //TODO catch - with error message
@@ -84,9 +77,9 @@ function EditPlayer() {
 
     useEffect(() => {
         if (loaded === false) {
-            getPlayerDetails()
+            getOrganizerDetails()
         }
-        console.log(playerDetails);
+        console.log(organizerDetails);
     }, [])
 
     useEffect(() => {
@@ -95,31 +88,24 @@ function EditPlayer() {
     }, [isLoading, isShow, isDisabled]);
 
 
-    function submitPlayer(event) {
+    function submitOrganizer(event) {
         event.preventDefault();
-        const player = {
-            userPassword: playerDetails.userPassword,
-            userLogin: playerDetails.userLogin,
-            userEmail: playerDetails.userEmail,
-            userCity: playerDetails.userCity,
-            userCountry: playerDetails.userCountry,
-            userStreet: playerDetails.userStreet,
-            userZipCode: playerDetails.userZipCode,
-            playerFirstName: playerDetails.playerFirstName,
-            playerLastName: playerDetails.playerLastName,
-            playerDOB: playerDetails.playerDOB,
-            playerTeamName: playerDetails.playerTeamName,
-            playerWeight: playerDetails.playerWeight,
-            playerAdditionalInfo: playerDetails.playerAdditionalInfo,
-            playerLicence: playerDetails.playerLicence,
-            playerPhone: playerDetails.playerPhone,
+        const organizer = {
+            userEmail: organizerDetails.userEmail,
+            userLogin: organizerDetails.userLogin,
+            userPassword: organizerDetails.userPassword,
+            userCity: organizerDetails.userCity,
+            userCountry: organizerDetails.userCountry,
+            userStreet: organizerDetails.userStreet,
+            userZipCode: organizerDetails.userZipCode,
+            organizerName: organizerDetails.organizerName
         }
-        console.log(player);
+        console.log(organizer);
         const auth = {
             username: 'admin',
             password: 'admin'
         }
-        axios.post("http://localhost:8080/api/users/edit/player/" + id, player, {auth})
+        axios.post("http://localhost:8080/api/users/edit/organizer/" + id, organizer, {auth})
             .then(response => {
                 if (response.data != null) {
                     setShow(true)
@@ -128,7 +114,7 @@ function EditPlayer() {
                     setMessageType("success")
                     setTimeout(() => setShow(false), 3000)
                     setDisabled(true);
-                    getPlayerDetails()
+                    getOrganizerDetails()
                 } else {
                     setShow(false)
                 }
@@ -158,7 +144,7 @@ function EditPlayer() {
             </div>
 
             <Card className={"border border-dark bg-dark text-white"}>
-                <Card.Header><FontAwesomeIcon icon={faUserEdit}/> Edit Player
+                <Card.Header><FontAwesomeIcon icon={faUserEdit}/> Edit Organizer
                     <div className={"fa-pull-right"}>
                     <ToggleButton
                         id="toggle-check"
@@ -178,15 +164,15 @@ function EditPlayer() {
                     </div>
                 </Card.Header>
                 <Card.Body>
-                    <Form id="registerPlayerId" onReset={resetPlayer} onSubmit={submitPlayer}>
+                    <Form id="registerOrganizerId" onReset={resetOrganizer} onSubmit={submitOrganizer}>
                         <Form.Group as={Row} className="mb-3">
                             <Form.Label column sm="2">Email</Form.Label>
                             <Col sm="10">
                                 <Form.Control required name="userEmail"
                                               type="email"
                                               controlId="formUserEmail"
-                                              value={playerDetails.userEmail}
-                                              onChange={playerChange}
+                                              value={organizerDetails.userEmail}
+                                              onChange={organizerChange}
                                               disabled={true}
                                               className={"bg-transparent text-white-50 border-0"}
                                               placeholder="Enter user email"
@@ -198,8 +184,8 @@ function EditPlayer() {
                                 <Form.Control required name="userLogin"
                                               type="text"
                                               controlId="formUserLogin"
-                                              value={playerDetails.userLogin}
-                                              onChange={playerChange}
+                                              value={organizerDetails.userLogin}
+                                              onChange={organizerChange}
                                               disabled={true}
                                               className={"bg-transparent text-white-50 border-0"}
                                 /></Col>
@@ -210,117 +196,35 @@ function EditPlayer() {
                                 <Form.Control required name="userPassword"
                                               type="password"
                                               controlId="formUserPassword"
-                                              value={playerDetails.userPassword}
-                                              onChange={playerChange}
+                                              value={organizerDetails.userPassword}
+                                              onChange={organizerChange}
                                               disabled={isDisabled}
                                               className={inputClasses}
 
                                 /></Col>
                         </Form.Group>
+
                         <Form.Group as={Row} className="mb-3">
-                            <Form.Label column sm="2">Player name</Form.Label>
+                            <Form.Label column sm="2">Organizer Team</Form.Label>
                             <Col sm="10">
-                                <Form.Control required name="playerFirstName"
+                                <Form.Control required name="organizerName"
                                               type="text"
-                                              controlId="formPlayerFirstName"
-                                              value={playerDetails.playerFirstName}
-                                              onChange={playerChange}
+                                              controlId="formOrganizerTeamName"
+                                              value={organizerDetails.organizerName}
+                                              onChange={organizerChange}
                                               disabled={isDisabled}
                                               className={inputClasses}
                                 /></Col>
                         </Form.Group>
-                        <Form.Group as={Row} className="mb-3">
-                            <Form.Label column sm="2">Player Last Name</Form.Label>
-                            <Col sm="10">
-                                <Form.Control required name="playerLastName"
-                                              type="text"
-                                              controlId="formPlayerLastName"
-                                              value={playerDetails.playerLastName}
-                                              onChange={playerChange}
-                                              disabled={isDisabled}
-                                              className={inputClasses}
-                                /></Col>
-                        </Form.Group>
-                        <Form.Group as={Row} className="mb-3">
-                            <Form.Label column sm="2">Player DOB</Form.Label>
-                            <Col sm="10">
-                                <Form.Control required name="playerDOB"
-                                              type="date" dateFormat="YYYY-MM-DD"
-                                              controlId="formPlayerDOB"
-                                              value={playerDetails.playerDOB}
-                                              onChange={playerChange}
-                                              disabled={isDisabled}
-                                              className={inputClasses}
-                                /></Col>
-                        </Form.Group>
-                        <Form.Group as={Row} className="mb-3">
-                            <Form.Label column sm="2">Player Team</Form.Label>
-                            <Col sm="10">
-                                <Form.Control required name="playerTeamName"
-                                              type="text"
-                                              controlId="formPlayerTeamName"
-                                              value={playerDetails.playerTeamName}
-                                              onChange={playerChange}
-                                              disabled={isDisabled}
-                                              className={inputClasses}
-                                /></Col>
-                        </Form.Group>
-                        <Form.Group as={Row} className="mb-3">
-                            <Form.Label column sm="2">Player weight</Form.Label>
-                            <Col sm="10">
-                                <Form.Control required name="playerWeight"
-                                              type="number"
-                                              controlId="formPlayerWeight"
-                                              value={playerDetails.playerWeight}
-                                              onChange={playerChange}
-                                              disabled={isDisabled}
-                                              className={inputClasses}
-                                /></Col>
-                        </Form.Group>
-                        <Form.Group as={Row} className="mb-3">
-                            <Form.Label column sm="2">Player licence</Form.Label>
-                            <Col sm="10">
-                                <Form.Control required name="playerLicence"
-                                              type="text"
-                                              controlId="formPlayerLicence"
-                                              value={playerDetails.playerLicence}
-                                              onChange={playerChange}
-                                              disabled={isDisabled}
-                                              className={inputClasses}
-                                /></Col>
-                        </Form.Group>
-                        <Form.Group as={Row} className="mb-3">
-                            <Form.Label column sm="2">Player phone</Form.Label>
-                            <Col sm="10">
-                                <Form.Control required name="playerPhone"
-                                              type="text"
-                                              controlId="formPlayerPhone"
-                                              value={playerDetails.playerPhone}
-                                              onChange={playerChange}
-                                              disabled={isDisabled}
-                                              className={inputClasses}
-                                /></Col>
-                        </Form.Group>
-                        <Form.Group as={Row} className="mb-3">
-                            <Form.Label column sm="2">Player additional info</Form.Label>
-                            <Col sm="10">
-                                <Form.Control required name="playerAdditionalInfo"
-                                              as="textarea"
-                                              controlId="formPlayerAdditionalInfo"
-                                              value={playerDetails.playerAdditionalInfo}
-                                              onChange={playerChange}
-                                              disabled={isDisabled}
-                                              className={inputClasses}
-                                /></Col>
-                        </Form.Group>
+
                         <Form.Group as={Row} className="mb-3">
                             <Form.Label column sm="2">City</Form.Label>
                             <Col sm="10">
                                 <Form.Control required name="userCity"
                                               type="text"
                                               controlId="formUserCity"
-                                              value={playerDetails.userCity}
-                                              onChange={playerChange}
+                                              value={organizerDetails.userCity}
+                                              onChange={organizerChange}
                                               disabled={isDisabled}
                                               className={inputClasses}
                                 /></Col>
@@ -331,8 +235,8 @@ function EditPlayer() {
                                 <Form.Control required name="userStreet"
                                               type="text"
                                               controlId="formUserStreet"
-                                              value={playerDetails.userStreet}
-                                              onChange={playerChange}
+                                              value={organizerDetails.userStreet}
+                                              onChange={organizerChange}
                                               disabled={isDisabled}
                                               className={inputClasses}
                                 /></Col>
@@ -342,8 +246,8 @@ function EditPlayer() {
                             <Col sm="10"><Form.Control required name="userCountry"
                                                        type="text"
                                                        controlId="formUserCountry"
-                                                       value={playerDetails.userCountry}
-                                                       onChange={playerChange}
+                                                       value={organizerDetails.userCountry}
+                                                       onChange={organizerChange}
                                                        disabled={isDisabled}
                                                        className={inputClasses}
                             /></Col>
@@ -352,8 +256,8 @@ function EditPlayer() {
                             <Form.Label column sm="2">Zip CODE</Form.Label>
                             <Col sm="10"><Form.Control required name="userZipCode"
                                                        controlId="formUserZipCode"
-                                                       value={playerDetails.userZipCode}
-                                                       onChange={playerChange}
+                                                       value={organizerDetails.userZipCode}
+                                                       onChange={organizerChange}
                                                        disabled={isDisabled}
                                                        className={inputClasses}
                                                        type="text"
@@ -377,4 +281,4 @@ function EditPlayer() {
 
 }
 
-export default EditPlayer
+export default EditOrganizer

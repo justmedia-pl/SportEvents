@@ -1,9 +1,10 @@
 import React,{Component} from "react";
 import {Card, Button, Table} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faCoffee, faList} from '@fortawesome/free-solid-svg-icons'
+import {faCoffee, faInfo, faList} from '@fortawesome/free-solid-svg-icons'
 import axios from "axios";
 import {Link} from "react-router-dom";
+import {convertTextToDateTime} from "./UtilityServices";
 
 export default class EventsList extends React.Component {
     constructor(props) {
@@ -44,13 +45,13 @@ export default class EventsList extends React.Component {
                         </tr> :
                         this.state.events.map((eventDetails) => (
                             <tr key={eventDetails.eventId} align="center">
-                                <td>{eventDetails.eventDate}</td>
+                                <td>  {convertTextToDateTime(eventDetails.eventDate)}</td>
                                 <td>{eventDetails.title}</td>
                                 <td>Org name</td>
                                 <td>  {eventDetails.eventFee === 0 ? "Free" : eventDetails.eventFee}</td>
                                 <td>{eventDetails.subscriptionsCount}</td>
                                 <td><Link to={"/events/"+eventDetails.eventId}>
-                                    <Button variant="success" className={"btn-success"}>Show details</Button>
+                                    <Button variant="outline-success" ><FontAwesomeIcon icon={faInfo}/></Button>
                                 </Link></td>
                             </tr>
                         ))
