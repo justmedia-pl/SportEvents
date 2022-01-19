@@ -1,4 +1,4 @@
-# Sport Events Subscription Managment
+# Sport Events Subscription Management
 ## About
 This is simple Events Subscription Management in JAVA application by Spring with basic Spring Security and Hibernate. 
 Everything works on REST API interface.
